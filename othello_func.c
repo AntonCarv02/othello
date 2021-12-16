@@ -68,6 +68,9 @@ void play(char board[8][8],int line,int  col,char color ){
 
     int count=flanked(board,line,col,color);
 
+    if(!count){
+        printf("jogada invalida\n");
+    }
     
     printf("%d\n", count);
 
@@ -98,7 +101,7 @@ int flanked( char board[8][8], int line,int col,char color ){
     int ss=count_flips_dir(board,line,col,color,1,0);
     int se=count_flips_dir(board,line,col,color,1,1); 
 
-    printf("no %d\n",no);
+    printf("no%d\n",no);
     printf("nn%d\n",nn);
     printf("ne%d\n",ne);
     printf("oo%d\n",oo);
@@ -137,12 +140,13 @@ int count_flips_dir(char board[8][8], int line, int col ,char color ,int delta_l
     while( l>=0 &&l<8 ){
         while(c>=0 && c<8 && i<9){
         
-            printf("l:%d c:%d\n",l,c);
+            printf("l:%d c:%d",l,c);
     
             count_opponent+=(board[l][c]==opponent);
-            printf("%d",count_opponent);
+            printf(" c%d\n",count_opponent);
 
-            
+            printf("i%d\n",i);
+
             if((board[(l+delta_line)][(c+delta_col)])==color){
 
                 return count_opponent;
@@ -152,11 +156,10 @@ int count_flips_dir(char board[8][8], int line, int col ,char color ,int delta_l
                 return 0;
                 
             }
-            
+            i++;
             c+=delta_col;
             l+=delta_line;
         }
-                 
     }
     
 }

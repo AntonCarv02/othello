@@ -14,7 +14,7 @@ int main(){
     
     print_board(board);
 
-    play(board,2,3,'x');
+    play(board,2,1,'x');
 
     return 0;
 }       
