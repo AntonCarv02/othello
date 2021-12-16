@@ -62,14 +62,15 @@ void print_board(char board[8][8]){
 // col - coluna da matriz onde foi feita a jogada,inteiro
 //-----------------------------
 void play(char board[8][8],int line,int  col,char color ){
+    
+    printf("l:%d c:%d\n",line,col);
+    printf("board%c\n",board[line][col]);
 
     int count=flanked(board,line,col,color);
 
-    printf("%d\n",count);
-
     
+    printf("%d\n", count);
 
-    
 }
 
 
@@ -84,26 +85,27 @@ void play(char board[8][8],int line,int  col,char color ){
 //-----------------------------
 int flanked( char board[8][8], int line,int col,char color ){
 
-    char opponent;
+   
 
-    if(color == 'x'){
-        opponent = 'o';
+    int no=count_flips_dir(board,line,col,color,-1,-1);
+    int nn=count_flips_dir(board,line,col,color,-1,0);
+    int ne=count_flips_dir(board,line,col,color,-1,1);
 
-    }else if (color == 'o'){
-        opponent= 'x';
+    int oo=count_flips_dir(board,line,col,color,0,-1);
+    int ee=count_flips_dir(board,line,col,color,0,1);
 
-    }
+    int so=count_flips_dir(board,line,col,color,1,-1);
+    int ss=count_flips_dir(board,line,col,color,1,0);
+    int se=count_flips_dir(board,line,col,color,1,1); 
 
-    int no=count_flips_dir(board,line,col,opponent,-1,-1);
-    int nn=count_flips_dir(board,line,col,opponent,-1,0);
-    int ne=count_flips_dir(board,line,col,opponent,-1,1);
-
-    int oo=count_flips_dir(board,line,col,opponent,0,-1);
-    int ee=count_flips_dir(board,line,col,opponent,0,1);
-
-    int so=count_flips_dir(board,line,col,opponent,1,-1);
-    int ss=count_flips_dir(board,line,col,opponent,1,0);
-    int se=count_flips_dir(board,line,col,opponent,1,1);    
+    printf("no %d\n",no);
+    printf("nn%d\n",nn);
+    printf("ne%d\n",ne);
+    printf("oo%d\n",oo);
+    printf("ee%d\n",ee);
+    printf("so%d\n",so);
+    printf("ss%d\n",ss);
+    printf("se%d\n",se);  
     
     return (no+nn+ne+oo+ee+so+ss+se);
 }
@@ -120,36 +122,41 @@ int flanked( char board[8][8], int line,int col,char color ){
 //-----------------------------
 int count_flips_dir(char board[8][8], int line, int col ,char color ,int delta_line , int delta_col){
 
-    int count_opponent=0,l=line,c=col,me;
-    
+    int count_opponent=0;
+    int l=line,c=col;
+    char opponent;
 
     if(color == 'x'){
-        me = 'o';
+        opponent = 'o';
 
     }else if (color == 'o'){
-        me= 'x';
+        opponent= 'x';
 
     }
-   
-    while( l>=0 &&l<8){
-        while(c>=0 && c<8){
+    int i=0;
+    while( l>=0 &&l<8 ){
+        while(c>=0 && c<8 && i<9){
         
-            count_opponent+=(board[l][c]==color);
+            printf("l:%d c:%d\n",l,c);
+    
+            count_opponent+=(board[l][c]==opponent);
+            printf("%d",count_opponent);
 
-            if(board[l+delta_line][c+delta_col]==me){
+            
+            if((board[(l+delta_line)][(c+delta_col)])==color){
 
                 return count_opponent;
 
-            }else if((board[l+delta_line][c+delta_col]=='.')){
+            }else if((board[(l+delta_line)][(c+delta_col)]=='.')){
                 
                 return 0;
                 
             }
-
+            
             c+=delta_col;
+            l+=delta_line;
         }
-        
-        l+=delta_line; 
+                 
     }
     
 }

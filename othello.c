@@ -7,14 +7,14 @@ int main(){
     char board[8][8];
     
     
-    printf("\n---------- JOGO OTHELLO ----------\n\n\nAs suas peças são as Pretas (x).\n\n");
+    printf("\n----------- JOGO OTHELLO -----------\n\n\nAs suas peças são as Pretas (x).\n\n");
 
     
     init_board(board);
     
     print_board(board);
 
-    play(board,3,2,'x');
+    play(board,2,3,'x');
 
     return 0;
 }       
