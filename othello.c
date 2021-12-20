@@ -16,6 +16,8 @@ int main( int argc){
 
     while(!verif_gameover(board)){
         
+        //turn = ;
+        getMove(board, turn);
     }
 
     return 0;

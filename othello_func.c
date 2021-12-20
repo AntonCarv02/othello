@@ -82,24 +82,39 @@ int verif_gameover(char board[8][8]){
 //-----------------------------
 void getMove(char board[8][8], char color){
 
-    int line, col;
+    int line, col, count;
     char col_char;
 
-    printf("insira a sua jogada: ");
+
+    printf("Insira a sua jogada: ");
     scanf("%i %c", &line, &col_char);
 
-    col= col_char - 'A';
+    col= col_char - 'A';    
 
-    while(col<0||col>7){
+
+    while((col<0||col>7)||( board[line][col]!='.')){
     
-        printf("insira a sua jogada: ");
+        printf("Posição inválida!\nInsira a sua jogada: ");
         scanf("%i %c", &line, &col_char);
 
         col= col_char - 'A';
     }
+    
+    
+    count=flanked(board,line,col,'x');
+    
+    while(!count){
+        printf("Jogada inválida!\nInsira a sua jogada: ");
+        scanf("%i %c", &line, &col_char);
+
+        col= col_char - 'A';
+    }
+    
+    
+    printf("count getmove%d\n", count);
 
 
-    play(board, line, col, color);
+    play(board, line, col, 'x');
 
 }
 
@@ -115,17 +130,13 @@ void getMove(char board[8][8], char color){
 //-----------------------------
 void play(char board[8][8],int line,int  col,char color ){
     
-    int count=flanked(board,line,col,color);
-     
-    printf("%d\n", count);
-
-    if (( board[line][col]!='.')||!count){
-        
-        printf("jogada invalida\n");
-    
-    }
+    board[line][col]=color;
 
 
+
+
+
+    print_board(board);
 
 }
 
@@ -141,29 +152,43 @@ void play(char board[8][8],int line,int  col,char color ){
 //-----------------------------
 int flanked( char board[8][8], int line,int col,char color ){
 
-   
+   int count,soma=0;
+   for (int l=-1;l<2;l+=2){
+       for(int c=-1;c<2;c++){
+           count=count_flips_dir(board,line,col,color,l,c);
+           soma+=count;
+           printf(" flanked c%d s%d\n",count,soma);
+       }
+    }
+    
+    for (int c=-1;c<2;c+=2){
+       count=count_flips_dir(board,line,col,color,0,c);
+        soma+=count;
+        printf("flanked c%d s%d\n",count,soma);
+       
+    }
+
+    /*
+    int oo=count_flips_dir(board,line,col,color,0,-1);
+    printf("oo\n");
+    int ee=count_flips_dir(board,line,col,color,0,1);
+    printf("ee\n");
 
     int no=count_flips_dir(board,line,col,color,-1,-1);
+    printf("no\n");
     int nn=count_flips_dir(board,line,col,color,-1,0);
+    printf("nn\n");
     int ne=count_flips_dir(board,line,col,color,-1,1);
-
-    int oo=count_flips_dir(board,line,col,color,0,-1);
-    int ee=count_flips_dir(board,line,col,color,0,1);
+    printf("ne\n");
 
     int so=count_flips_dir(board,line,col,color,1,-1);
+    printf("so\n");
     int ss=count_flips_dir(board,line,col,color,1,0);
-    int se=count_flips_dir(board,line,col,color,1,1); 
-
-    /*printf("no%d\n",no);
-    printf("nn%d\n",nn);
-    printf("ne%d\n",ne);
-    printf("oo%d\n",oo);
-    printf("ee%d\n",ee);
-    printf("so%d\n",so);
-    printf("ss%d\n",ss);
-    printf("se%d\n",se);  */
+    printf("ss\n");
+    int se=count_flips_dir(board,line,col,color,1,1);
+    printf("se\n");*/
     
-    return (no+nn+ne+oo+ee+so+ss+se);
+    return (soma);
 }
 
 
@@ -171,7 +196,7 @@ int flanked( char board[8][8], int line,int col,char color ){
 // função count_flips_dir - Conta quantas peças serão viradas, numa certa linha, coluna e diagonal.
 //(definida por delta_line e delta_col, por exemplo se delta_line=1 e
 //delta_col=1, estamos a considerar a direção “baixo-direita”)
-
+//
 // argumentos:
 // board[8][8]- tabuleiro de jogo, matriz de caracteres 8*8
 // line - linha da matriz onde foi feita a jogada,inteiro
@@ -197,12 +222,12 @@ int count_flips_dir(char board[8][8], int line, int col ,char color ,int delta_l
     while( l>=0 &&l<8 ){
         while(c>=0 && c<8 && i<9){
         
-            //printf("l:%d c:%d",l,c);
+            printf("countflip l:%d c:%d",l,c);
     
             count_opponent+=(board[l][c]==opponent);
-            //printf(" c%d\n",count_opponent);
+            printf(" c%d",count_opponent);
 
-            //printf("i%d\n",i);
+            printf(" i%d",i);
 
             if((board[(l+delta_line)][(c+delta_col)])==color){
 
