@@ -103,6 +103,7 @@ void getMove(char board[8][8], char color){
 
 }
 
+
 //-----------------------------
 // função play - coloca uma peça de cor color na posição (line, col) e vira
 // as peças do adversário de acordo com as regras indicadas na descrição do jogo.
@@ -115,16 +116,14 @@ void getMove(char board[8][8], char color){
 void play(char board[8][8],int line,int  col,char color ){
     
     int count=flanked(board,line,col,color);
-    
+     
+    printf("%d\n", count);
+
     if (( board[line][col]!='.')||!count){
         
         printf("jogada invalida\n");
     
     }
-
-    
-    
-    printf("%d\n", count);
 
 
 
@@ -192,6 +191,7 @@ int count_flips_dir(char board[8][8], int line, int col ,char color ,int delta_l
         opponent= 'x';
 
     }
+    
     int i=0;
 
     while( l>=0 &&l<8 ){
@@ -219,4 +219,5 @@ int count_flips_dir(char board[8][8], int line, int col ,char color ,int delta_l
         }
     }
     
+
 }
