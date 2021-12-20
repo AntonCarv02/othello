@@ -23,6 +23,7 @@ void init_board (char board[8][8]){
     board[3][4]='x';
     board[4][4]='o';
     board[4][3]='x';
+
     
 }
 
@@ -51,6 +52,56 @@ void print_board(char board[8][8]){
     printf("\n");
 }
 
+//-----------------------------
+// função verif_gameover - verifica se o jogo chegou ao fim
+//
+// argumentos:
+// board[8][8]- tabuleiro de jogo, matriz de caracteres 8*8
+//-----------------------------
+int verif_gameover(char board[8][8]){
+
+    int l,c,count_fill=0;
+
+
+    for(l=0; l<8; l++){
+        for(c=0; c<8; c++){
+
+            count_fill+=(board[l][c]!='.');
+        }
+    }
+
+
+    return (count_fill==64);
+}
+
+//-----------------------------
+// função verif_gameover - verifica se o tabuleiro de jogo foi totalmente preenchido
+//
+// argumentos:
+// board[8][8]- tabuleiro de jogo, matriz de caracteres 8*8
+//-----------------------------
+void getMove(char board[8][8], char color){
+
+    int line, col;
+    char col_char;
+
+    printf("insira a sua jogada: ");
+    scanf("%i %c", &line, &col_char);
+
+    col= col_char - 'A';
+
+    while(col<0||col>7){
+    
+        printf("insira a sua jogada: ");
+        scanf("%i %c", &line, &col_char);
+
+        col= col_char - 'A';
+    }
+
+
+    play(board, line, col, color);
+
+}
 
 //-----------------------------
 // função play - coloca uma peça de cor color na posição (line, col) e vira
@@ -63,22 +114,25 @@ void print_board(char board[8][8]){
 //-----------------------------
 void play(char board[8][8],int line,int  col,char color ){
     
-    printf("l:%d c:%d\n",line,col);
-    printf("board%c\n",board[line][col]);
-
     int count=flanked(board,line,col,color);
-
-    if(!count){
+    
+    if (( board[line][col]!='.')||!count){
+        
         printf("jogada invalida\n");
+    
     }
+
+    
     
     printf("%d\n", count);
+
+
 
 }
 
 
 //-----------------------------
-// função flanked - Conta o número de peças viradas ao jogar numa certa linha, coluna e diagonal.
+// função flanked - Conta o número de peças viradas ao jogar numa certa linha ou coluna.
 //Se a jogada for inválida retorna zero.
 //
 // argumentos:
@@ -101,23 +155,24 @@ int flanked( char board[8][8], int line,int col,char color ){
     int ss=count_flips_dir(board,line,col,color,1,0);
     int se=count_flips_dir(board,line,col,color,1,1); 
 
-    printf("no%d\n",no);
+    /*printf("no%d\n",no);
     printf("nn%d\n",nn);
     printf("ne%d\n",ne);
     printf("oo%d\n",oo);
     printf("ee%d\n",ee);
     printf("so%d\n",so);
     printf("ss%d\n",ss);
-    printf("se%d\n",se);  
+    printf("se%d\n",se);  */
     
     return (no+nn+ne+oo+ee+so+ss+se);
 }
 
 
 //-----------------------------
-// função count_flips_dir - Conta quantas peças serão viradas, numa certa linha e coluna, e numa certa
-//direção (definida por delta_line e delta_col, por exemplo se delta_line=1 e
+// função count_flips_dir - Conta quantas peças serão viradas, numa certa linha, coluna e diagonal.
+//(definida por delta_line e delta_col, por exemplo se delta_line=1 e
 //delta_col=1, estamos a considerar a direção “baixo-direita”)
+
 // argumentos:
 // board[8][8]- tabuleiro de jogo, matriz de caracteres 8*8
 // line - linha da matriz onde foi feita a jogada,inteiro
@@ -129,6 +184,7 @@ int count_flips_dir(char board[8][8], int line, int col ,char color ,int delta_l
     int l=line,c=col;
     char opponent;
 
+
     if(color == 'x'){
         opponent = 'o';
 
@@ -137,15 +193,16 @@ int count_flips_dir(char board[8][8], int line, int col ,char color ,int delta_l
 
     }
     int i=0;
+
     while( l>=0 &&l<8 ){
         while(c>=0 && c<8 && i<9){
         
-            printf("l:%d c:%d",l,c);
+            //printf("l:%d c:%d",l,c);
     
             count_opponent+=(board[l][c]==opponent);
-            printf(" c%d\n",count_opponent);
+            //printf(" c%d\n",count_opponent);
 
-            printf("i%d\n",i);
+            //printf("i%d\n",i);
 
             if((board[(l+delta_line)][(c+delta_col)])==color){
 

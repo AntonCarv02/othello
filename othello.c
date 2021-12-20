@@ -2,9 +2,9 @@
 #include "othello_func.h"
 
 
-int main(){
+int main( int argc){
 
-    char board[8][8];
+    char board[8][8], turn;
     
     
     printf("\n----------- JOGO OTHELLO -----------\n\n\nAs suas peças são as Pretas (x).\n\n");
@@ -14,7 +14,9 @@ int main(){
     
     print_board(board);
 
-    play(board,2,1,'x');
+    while(!verif_gameover(board)){
+        
+    }
 
     return 0;
 }       
