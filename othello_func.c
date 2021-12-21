@@ -75,10 +75,11 @@ int verif_gameover(char board[8][8]){
 }
 
 //-----------------------------
-// função verif_gameover - verifica se o tabuleiro de jogo foi totalmente preenchido
+// função getMove - recebe a jogada do jogador color e verifica se é valida
 //
 // argumentos:
 // board[8][8]- tabuleiro de jogo, matriz de caracteres 8*8
+// color - que jogador está a fazer a jogada
 //-----------------------------
 void getMove(char board[8][8], char color){
 
@@ -86,16 +87,16 @@ void getMove(char board[8][8], char color){
     char col_char;
 
 
-    printf("Insira a sua jogada: ");
-    scanf("%i %c", &line, &col_char);
+    printf("Insira a sua jogada  (formato ex - 3D): ");
+    scanf("%d %c", &line, &col_char);
 
     col= col_char - 'A';    
 
 
     while((col<0||col>7)||( board[line][col]!='.')){
     
-        printf("Posição inválida!\nInsira a sua jogada: ");
-        scanf("%i %c", &line, &col_char);
+        printf("Posição inválida!\nInsira a sua jogada  (formato ex - 3D): ");
+        scanf("%d %c", &line, &col_char);
 
         col= col_char - 'A';
     }
@@ -104,8 +105,8 @@ void getMove(char board[8][8], char color){
     count=flanked(board,line,col,'x');
     
     while(!count){
-        printf("Jogada inválida!\nInsira a sua jogada: ");
-        scanf("%i %c", &line, &col_char);
+        printf("Jogada inválida!\nInsira a sua jogada  (formato ex - 3D): ");
+        scanf("%d %c", &line, &col_char);
 
         col= col_char - 'A';
     }
@@ -127,11 +128,13 @@ void getMove(char board[8][8], char color){
 // board[8][8]- tabuleiro de jogo, matriz de caracteres 8*8
 // line - linha da matriz onde foi feita a jogada,inteiro
 // col - coluna da matriz onde foi feita a jogada,inteiro
+// color - que jogador está a fazer a jogada
 //-----------------------------
 void play(char board[8][8],int line,int  col,char color ){
     
-    board[line][col]=color;
+    int;
 
+    board[line][col]=color;
 
 
 
@@ -149,25 +152,24 @@ void play(char board[8][8],int line,int  col,char color ){
 // board[8][8]- tabuleiro de jogo, matriz de caracteres 8*8
 // line - linha da matriz onde foi feita a jogada,inteiro
 // col - coluna da matriz onde foi feita a jogada,inteiro
+// color - que jogador está a fazer a jogada
 //-----------------------------
 int flanked( char board[8][8], int line,int col,char color ){
 
    int count,soma=0;
-   for (int l=-1;l<2;l+=2){
+   for (int l=-1;l<2;l++){
        for(int c=-1;c<2;c++){
-           count=count_flips_dir(board,line,col,color,l,c);
+           if((l!=0)||(c!=0)) {
+
+            count=count_flips_dir(board,line,col,color,l,c);
            soma+=count;
            printf(" flanked c%d s%d\n",count,soma);
+
+           }
+         
        }
     }
     
-    for (int c=-1;c<2;c+=2){
-       count=count_flips_dir(board,line,col,color,0,c);
-        soma+=count;
-        printf("flanked c%d s%d\n",count,soma);
-       
-    }
-
     /*
     int oo=count_flips_dir(board,line,col,color,0,-1);
     printf("oo\n");
@@ -201,6 +203,9 @@ int flanked( char board[8][8], int line,int col,char color ){
 // board[8][8]- tabuleiro de jogo, matriz de caracteres 8*8
 // line - linha da matriz onde foi feita a jogada,inteiro
 // col - coluna da matriz onde foi feita a jogada,inteiro
+// color - que jogador está a fazer a jogada
+// delta_line - percorrer a linha na direção desejada
+// delta_col - percorrer a coluna na direção desejada
 //-----------------------------
 int count_flips_dir(char board[8][8], int line, int col ,char color ,int delta_line , int delta_col){
 
@@ -219,29 +224,29 @@ int count_flips_dir(char board[8][8], int line, int col ,char color ,int delta_l
     
     int i=0;
 
-    while( l>=0 &&l<8 ){
-        while(c>=0 && c<8 && i<9){
+    while(( l>=0 &&l<8 )&&(c>=0 && c<8 && i<9)){
+       
         
-            printf("countflip l:%d c:%d",l,c);
+        printf("countflip l:%d c:%d",l,c);
     
-            count_opponent+=(board[l][c]==opponent);
-            printf(" c%d",count_opponent);
+        count_opponent+=(board[l][c]==opponent);
+        printf(" c%d",count_opponent);
 
-            printf(" i%d",i);
+        printf(" i%d",i);
 
-            if((board[(l+delta_line)][(c+delta_col)])==color){
+        if((board[(l+delta_line)][(c+delta_col)])==color){
 
-                return count_opponent;
+            return count_opponent;
 
-            }else if((board[(l+delta_line)][(c+delta_col)]=='.')){
-                
-                return 0;
-                
-            }
-            i++;
-            c+=delta_col;
-            l+=delta_line;
+        }else if((board[(l+delta_line)][(c+delta_col)]=='.')){
+            
+            return 0;
+            
         }
+        i++;
+        c+=delta_col;
+        l+=delta_line;
+        
     }
     
 
