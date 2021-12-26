@@ -13,3 +13,4 @@ int count_flips_dir(char board[8][8], int line, int col ,char color ,int delta_l
 int verif_gameover(char board[8][8]);
 
 void getMove(char board[8][8], char color);
+

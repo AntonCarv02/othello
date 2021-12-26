@@ -74,6 +74,7 @@ int verif_gameover(char board[8][8]){
     return (count_fill==64);
 }
 
+
 //-----------------------------
 // função getMove - recebe a jogada do jogador color e verifica se é valida
 //
@@ -93,7 +94,7 @@ void getMove(char board[8][8], char color){
     col= col_char - 'A';    
 
 
-    while((col<0||col>7)||( board[line][col]!='.')){
+    while((col<0||col>7)||(line<0||line>7)||( board[line][col]!='.')){
     
         printf("Posição inválida!\nInsira a sua jogada  (formato ex - 3D): ");
         scanf("%d %c", &line, &col_char);
@@ -114,7 +115,6 @@ void getMove(char board[8][8], char color){
     
     printf("count getmove%d\n", count);
 
-
     play(board, line, col, 'x');
 
 }
@@ -131,10 +131,9 @@ void getMove(char board[8][8], char color){
 // color - que jogador está a fazer a jogada
 //-----------------------------
 void play(char board[8][8],int line,int  col,char color ){
-    
-    int;
 
     board[line][col]=color;
+
 
 
 
@@ -157,38 +156,20 @@ void play(char board[8][8],int line,int  col,char color ){
 int flanked( char board[8][8], int line,int col,char color ){
 
    int count,soma=0;
+   
    for (int l=-1;l<2;l++){
-       for(int c=-1;c<2;c++){
-           if((l!=0)||(c!=0)) {
+    for(int c=-1;c<2;c++){
+            if((l!=0)||(c!=0)) {
 
             count=count_flips_dir(board,line,col,color,l,c);
-           soma+=count;
-           printf(" flanked c%d s%d\n",count,soma);
+            soma+=count;
+            printf(" flanked c%d s%d\n",count,soma);
 
-           }
+            }
          
        }
     }
     
-    /*
-    int oo=count_flips_dir(board,line,col,color,0,-1);
-    printf("oo\n");
-    int ee=count_flips_dir(board,line,col,color,0,1);
-    printf("ee\n");
-
-    int no=count_flips_dir(board,line,col,color,-1,-1);
-    printf("no\n");
-    int nn=count_flips_dir(board,line,col,color,-1,0);
-    printf("nn\n");
-    int ne=count_flips_dir(board,line,col,color,-1,1);
-    printf("ne\n");
-
-    int so=count_flips_dir(board,line,col,color,1,-1);
-    printf("so\n");
-    int ss=count_flips_dir(board,line,col,color,1,0);
-    printf("ss\n");
-    int se=count_flips_dir(board,line,col,color,1,1);
-    printf("se\n");*/
     
     return (soma);
 }
