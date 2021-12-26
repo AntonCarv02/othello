@@ -26,6 +26,8 @@ int main( int argc, char * argv[]){
 
         FILE *f=fopen( "jogadas.txt", "r");
         
+        
+        init_board(board);
 
         print_board(board);
 
@@ -37,7 +39,7 @@ int main( int argc, char * argv[]){
     
     } else if (argc>2){
 
-        printf("Inválido!");
+        printf("Inválido!\n\n");
     }
 
     
