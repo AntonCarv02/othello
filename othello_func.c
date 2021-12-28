@@ -23,7 +23,6 @@ void init_board (char board[8][8]){
     board[3][4]='x';
     board[4][4]='o';
     board[4][3]='x';
-
     
 }
 
@@ -36,16 +35,15 @@ void init_board (char board[8][8]){
 //-----------------------------
 void print_board(char board[8][8]){
 
-    printf("\t  A B C D E F G H\n");
+    printf("\n\t  A B C D E F G H\n");
     for(int l=0;l<8;l++){
 
-        printf("\t%d ",l);
+        printf("\t%d ",(l+1));
 
         for(int c=0;c<8;c++){
 
             printf("%c ", board[l][c]);
         }
-
         printf("\n");
     }
     
@@ -70,9 +68,17 @@ int verif_gameover(char board[8][8]){
         }
     }
 
-
     return (count_fill==64);
 }
+
+
+//-----------------------------
+// função getMove - recebe a jogada do jogador color e verifica se é valida
+//
+// argumentos:
+// board[8][8]- tabuleiro de jogo, matriz de caracteres 8*8
+//-----------------------------
+
 
 
 //-----------------------------
@@ -87,35 +93,32 @@ void getMove(char board[8][8], char color){
     int line, col, count;
     char col_char;
 
-
-    printf("Insira a sua jogada  (formato ex - 3D): ");
-    scanf("%d %c", &line, &col_char);
-
-    col= col_char - 'A';    
-
-
-    while((col<0||col>7)||(line<0||line>7)||( board[line][col]!='.')){
     
-        printf("Posição inválida!\nInsira a sua jogada  (formato ex - 3D): ");
+    do{
+        
+        printf("Insira a sua jogada  (formato ex - 4C): ");
         scanf("%d %c", &line, &col_char);
 
         col= col_char - 'A';
-    }
-    
-    
-    count=flanked(board,line,col,'x');
-    
-    while(!count){
-        printf("Jogada inválida!\nInsira a sua jogada  (formato ex - 3D): ");
-        scanf("%d %c", &line, &col_char);
+        line=-1;
 
-        col= col_char - 'A';
-    }
-    
-    
-    printf("count getmove%d\n", count);
+        if ((col<0||col>7) || (line<0||line>7) || ( board[line][col]!='.')){
+            printf("\nInválido! Tente novamente.\n");
+            continue;
+        }
 
-    play(board, line, col, 'x');
+        count=flanked(board,line,col,color);
+        printf("getmove count%d\n", count);
+
+        if(!count){
+            printf("\nJogada inválida! Tente novamente.\n");
+            continue;
+        }
+    
+    } while ((!count) || ((col<0||col>7) || (line<0||line>7) || ( board[line][col]!='.')));
+        
+    
+    play(board, line, col,color);
 
 }
 
@@ -128,14 +131,13 @@ void getMove(char board[8][8], char color){
 // board[8][8]- tabuleiro de jogo, matriz de caracteres 8*8
 // line - linha da matriz onde foi feita a jogada,inteiro
 // col - coluna da matriz onde foi feita a jogada,inteiro
-// color - que jogador está a fazer a jogada
+// color - qual jogador está a fazer a jogada
 //-----------------------------
 void play(char board[8][8],int line,int  col,char color ){
 
     board[line][col]=color;
 
-
-
+    
 
 
     print_board(board);
@@ -157,17 +159,17 @@ int flanked( char board[8][8], int line,int col,char color ){
 
    int count,soma=0;
    
-   for (int l=-1;l<2;l++){
-    for(int c=-1;c<2;c++){
-            if((l!=0)||(c!=0)) {
+    for(int l=-1; l<2; l++){
+        for(int c=-1; c<2; c++){
 
-            count=count_flips_dir(board,line,col,color,l,c);
-            soma+=count;
-            printf(" flanked c%d s%d\n",count,soma);
+            if((l!=0)||(c!=0)){
 
-            }
-         
-       }
+                count=count_flips_dir(board,line,col,color,l,c);
+                soma+=count;
+                printf(" flanked c%d s%d\n",count,soma);
+
+            }         
+        }
     }
     
     

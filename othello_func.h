@@ -14,3 +14,4 @@ int verif_gameover(char board[8][8]);
 
 void getMove(char board[8][8], char color);
 
+char* getTurn (char turn);
