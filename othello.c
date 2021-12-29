@@ -10,48 +10,66 @@ int main( int argc, char * argv[]){
     
     if(argc==1){
 
+
         init_board(board);
 
         printf("\n----------- JOGO OTHELLO -----------\n\n\nAs suas peças são as Pretas (x).\n\n");
         
         print_board(board);
-        
-        turn = getTurn(turn);
-        
+
         while(!verif_gameover(board)){
-            
+            //turn = getTurn(turn);
             getMove(board, turn);
-        } 
+            print_board(board);
+        }
+
 
     } else if(argc==2){
 
         FILE *f=fopen( "jogadas.txt", "r");
-        
-        //verificar que abre o ficheiro
+        int filecol,fileline;
+        char filecol_char;
 
+        
         init_board(board);
 
-        //fazer as plays a partir do ficheiro
-        while(feof(f)) {
+        //verificar que abre o ficheiro
+        if(!(f==NULL)){
             
-            for(int i=0;i<2;i++){
-                filemove[i]= fgetc(f);
+            //fazer as plays a partir do ficheiro
+            while(1) {
+                
+                fscanf( f, "%d%c", &fileline, &filecol_char);
+
+                printf("%c ",filecol_char);
+                filecol=filecol_char-'A';
+
+                printf("l%d c%d\n",fileline,filecol);
+                
+                //turn
+                //play(board,fileline,filecol,turn);
+
+                if(fgetc(f)==EOF){
+                    break;
+                }         
             }
-            
         }
+        
 
         print_board(board);
 
         while(!verif_gameover(board)){
 
-            //turn = getTurn;
+            //turn = getTurn(turn);
             getMove(board, turn);
+            print_board(board);
         }
 
         //fechar o ficheiro jogadas
         fclose(f);
 
-    } else if (argc>2){
+
+    }else if (argc>2){
 
         printf("\nInválido!\n\n");
     }

@@ -18,12 +18,10 @@ void init_board (char board[8][8]){
             board[l][c]='.';
         }
     }
-
     board[3][3]='o';
     board[3][4]='x';
     board[4][4]='o';
-    board[4][3]='x';
-    
+    board[4][3]='x';    
 }
 
 
@@ -45,10 +43,10 @@ void print_board(char board[8][8]){
             printf("%c ", board[l][c]);
         }
         printf("\n");
-    }
-    
+    }    
     printf("\n");
 }
+
 
 //-----------------------------
 // função verif_gameover - verifica se o jogo chegou ao fim
@@ -78,7 +76,16 @@ int verif_gameover(char board[8][8]){
 // argumentos:
 // board[8][8]- tabuleiro de jogo, matriz de caracteres 8*8
 //-----------------------------
+char getTurn (char turn){
 
+    if(turn=='x'){
+        turn='o';
+    }else if(turn=='o'){
+        turn='x';
+    }
+
+    return turn;
+}
 
 
 //-----------------------------
@@ -100,7 +107,7 @@ void getMove(char board[8][8], char color){
         scanf("%d %c", &line, &col_char);
 
         col= col_char - 'A';
-        line=-1;
+        line--;
 
         if ((col<0||col>7) || (line<0||line>7) || ( board[line][col]!='.')){
             printf("\nInválido! Tente novamente.\n");
@@ -119,7 +126,6 @@ void getMove(char board[8][8], char color){
         
     
     play(board, line, col,color);
-
 }
 
 
@@ -137,11 +143,34 @@ void play(char board[8][8],int line,int  col,char color ){
 
     board[line][col]=color;
 
-    
+    int count;
+    char opponent;
 
 
-    print_board(board);
+    if(color == 'x'){
+        opponent = 'o';
 
+    }else if (color == 'o'){
+        opponent= 'x';
+
+    }
+   
+
+    for(int l=-1; l<2; l++){
+        for(int c=-1; c<2; c++){
+
+            if((l!=0)||(c!=0)){
+
+                count=count_flips_dir(board,line,col,color,l,c);
+                            
+                while(count){
+
+                    board[line+l][col+c]=color;
+                    count--;
+                }                
+            }         
+        }
+    }
 }
 
 
@@ -170,8 +199,7 @@ int flanked( char board[8][8], int line,int col,char color ){
 
             }         
         }
-    }
-    
+    }    
     
     return (soma);
 }
@@ -193,9 +221,9 @@ int flanked( char board[8][8], int line,int col,char color ){
 int count_flips_dir(char board[8][8], int line, int col ,char color ,int delta_line , int delta_col){
 
     int count_opponent=0;
-    int l=line,c=col;
+    int l=line,c=col,i=0;
     char opponent;
-
+    
 
     if(color == 'x'){
         opponent = 'o';
@@ -205,16 +233,12 @@ int count_flips_dir(char board[8][8], int line, int col ,char color ,int delta_l
 
     }
     
-    int i=0;
 
-    while(( l>=0 &&l<8 )&&(c>=0 && c<8 && i<9)){
-       
+    while(( l>=0 &&l<8 )&&(c>=0 && c<8 && i<9)){       
         
         printf("countflip l:%d c:%d",l,c);
     
-        count_opponent+=(board[l][c]==opponent);
-        printf(" c%d",count_opponent);
-
+        count_opponent+=(board[l][c]==opponent);        
         printf(" i%d",i);
 
         if((board[(l+delta_line)][(c+delta_col)])==color){
@@ -223,14 +247,11 @@ int count_flips_dir(char board[8][8], int line, int col ,char color ,int delta_l
 
         }else if((board[(l+delta_line)][(c+delta_col)]=='.')){
             
-            return 0;
-            
+            return 0;            
         }
+
         i++;
         c+=delta_col;
-        l+=delta_line;
-        
+        l+=delta_line;        
     }
-    
-
 }
