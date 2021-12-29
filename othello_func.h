@@ -1,8 +1,9 @@
 
-
 void init_board (char board[8][8]);
 
 void print_board(char board[8][8]);
+
+char playerColor ();
 
 void play(char board[8][8],int line,int  col,char color );
 

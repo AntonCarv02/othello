@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "othello_func.h"
 #include <stdlib.h>
+#include <time.h>
 
 
 //-----------------------------
@@ -18,12 +19,18 @@ void init_board (char board[8][8]){
             board[l][c]='.';
         }
     }
-
+/*
     board[3][3]='o';
     board[3][4]='x';
     board[4][4]='o';
-    board[4][3]='x';
-    
+    board[4][3]='x';*/
+
+    board[3][3]='x';
+    board[3][4]='x';
+    board[3][5]='x';
+    board[4][4]='o';
+    board[4][3]='o';
+    board[4][5]='o';
 }
 
 
@@ -73,17 +80,45 @@ int verif_gameover(char board[8][8]){
 
 
 //-----------------------------
-// função getTurn - recebe a jogada do jogador color e verifica se é valida
+// função playerColor - escolhe a cor do jogador
+//
+// Valor de retorno:
+// area calculada, caracter
+//-----------------------------
+char playerColor (){
+    
+    srand(time(NULL));
+    
+    char color;
+    int n=(rand()%2);
+    printf(" %i",n);
+
+    if(n==0){
+        color = 'x';
+        printf("\n----------- JOGO OTHELLO -----------\n\n\nAs suas peças são as Pretas (x).\n\n");
+
+    } else if (n==1){
+        color = 'o';
+        printf("\n----------- JOGO OTHELLO -----------\n\n\nAs suas peças são as Brancas (o).\n\n");
+    }
+
+    return color;
+}
+
+
+//-----------------------------
+// função getMove - recebe a jogada do jogador color e verifica se é valida
 //
 // argumentos:
 // board[8][8]- tabuleiro de jogo, matriz de caracteres 8*8
+// color - jogador que está a fazer a jogada
 //-----------------------------
 char getTurn (char turn){
-
-    if(turn=='x'){
-        turn='o';
-    }else if(turn=='o'){
-        turn='x';
+    
+    if(turn == 'x'){
+        turn ='o';
+    } else if(turn == 'o'){
+        turn ='x';
     }
 
     return turn;
@@ -95,14 +130,14 @@ char getTurn (char turn){
 //
 // argumentos:
 // board[8][8]- tabuleiro de jogo, matriz de caracteres 8*8
-// color - que jogador está a fazer a jogada
+// color - jogador que está a fazer a jogada
 //-----------------------------
 void getMove(char board[8][8], char color){
 
     int line, col, count;
     char col_char;
 
-    
+    printf("%c -",color);
     do{ 
 
         printf("Insira a sua jogada  (formato ex - 4C): ");
@@ -118,8 +153,7 @@ void getMove(char board[8][8], char color){
 
 
         count=flanked(board,line,col,color);
-        printf("getmove count%d\n", count);
-
+        
         if(!count){
             printf("\nJogada inválida! Tente novamente.\n");
             continue;
@@ -146,32 +180,23 @@ void play(char board[8][8],int line,int  col,char color ){
 
     board[line][col]=color;
     int count;
-    char opponent;
-
-
-    if(color == 'x'){
-        opponent = 'o';
-
-    }else if (color == 'o'){
-        opponent= 'x';
-
-    }
    
-
+    printf("\nPLAY\n");
     for(int l=-1; l<2; l++){
         for(int c=-1; c<2; c++){
 
             if((l!=0)||(c!=0)){
 
                 count=count_flips_dir(board,line,col,color,l,c);
-                printf("\n");
+                printf(" c%d, l%d, c%d\n",count,l,c);
                 
+
                 while(count){
 
                     board[line+l][col+c]=color;
                     count--;
-                    line+=l;
-                    col+=c;
+                    //line+=l;
+                    //col+=c;
                     
                 }                
             }         
@@ -227,7 +252,7 @@ int flanked( char board[8][8], int line,int col,char color ){
 int count_flips_dir(char board[8][8], int line, int col ,char color ,int delta_line , int delta_col){
 
     int count_opponent=0;
-    int l=line,c=col,i=0;
+    int l=line,c=col;
     char opponent;
     
 
@@ -239,12 +264,12 @@ int count_flips_dir(char board[8][8], int line, int col ,char color ,int delta_l
     }
     
 
-    while(( l>=0 &&l<8 )&&(c>=0 && c<8 && i<9)){       
+    while(( l>=0 &&l<8 )&&(c>=0 && c<8)){       
         
         printf("countflip l:%d c:%d",l,c);
     
         count_opponent+=(board[l][c]==opponent);        
-        printf(" i%d",i);
+        
 
         if((board[(l+delta_line)][(c+delta_col)])==color){
 
@@ -254,8 +279,7 @@ int count_flips_dir(char board[8][8], int line, int col ,char color ,int delta_l
             
             return 0;            
         }
-
-        i++;
+        
         c+=delta_col;
         l+=delta_line;        
     }

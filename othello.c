@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "othello_func.h"
 #include <stdlib.h>
+#include <time.h>
 
 
 int main( int argc, char * argv[]){
@@ -13,17 +14,15 @@ int main( int argc, char * argv[]){
 
         init_board(board);
 
-        //falta determinar quem fica com as peças pretas, colocar isto na funcao
-        printf("\n----------- JOGO OTHELLO -----------\n\n\nAs suas peças são as Pretas (x).\n\n");
-        
+        turn=playerColor();
+
         print_board(board);
 
         while(!verif_gameover(board)){
             
-            //turn = getTurn(turn);
-            turn='x';
             getMove(board, turn);
             print_board(board);
+            turn=getTurn(turn);
 
         }
 
