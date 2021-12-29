@@ -13,7 +13,7 @@ int main( int argc, char * argv[]){
 
         init_board(board);
 
-        //falta determinar quem fica com as peças pretas
+        //falta determinar quem fica com as peças pretas, colocar isto na funcao
         printf("\n----------- JOGO OTHELLO -----------\n\n\nAs suas peças são as Pretas (x).\n\n");
         
         print_board(board);
@@ -28,6 +28,7 @@ int main( int argc, char * argv[]){
 
 
     } else if(argc==2){
+
 
         FILE *f=fopen( "jogadas.txt", "r");
         int filecol,fileline;
@@ -56,6 +57,11 @@ int main( int argc, char * argv[]){
                     break;
                 }         
             }
+
+        }else{
+
+            printf("Não foi possivel abrir o ficheiro!\n");
+            //ver quem fica com as peças pretas
         }
         
 
@@ -73,6 +79,7 @@ int main( int argc, char * argv[]){
 
 
     }else if (argc>2){
+
 
         printf("\nInválido!\n\n");
     }

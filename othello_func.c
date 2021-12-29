@@ -101,8 +101,7 @@ void getMove(char board[8][8], char color){
     char col_char;
 
     
-    do{
-        
+    do{        
         printf("Insira a sua jogada  (formato ex - 4C): ");
         scanf("%d %c", &line, &col_char);
 
