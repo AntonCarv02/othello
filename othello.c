@@ -13,14 +13,17 @@ int main( int argc, char * argv[]){
 
         init_board(board);
 
+        //falta determinar quem fica com as peças pretas
         printf("\n----------- JOGO OTHELLO -----------\n\n\nAs suas peças são as Pretas (x).\n\n");
         
         print_board(board);
 
         while(!verif_gameover(board)){
+            
             //turn = getTurn(turn);
             getMove(board, turn);
             print_board(board);
+
         }
 
 
@@ -29,7 +32,7 @@ int main( int argc, char * argv[]){
         FILE *f=fopen( "jogadas.txt", "r");
         int filecol,fileline;
         char filecol_char;
-
+        
         
         init_board(board);
 
@@ -37,7 +40,7 @@ int main( int argc, char * argv[]){
         if(!(f==NULL)){
             
             //fazer as plays a partir do ficheiro
-            while(1) {
+            while(!verif_gameover(board)) {
                 
                 fscanf( f, "%d%c", &fileline, &filecol_char);
 
