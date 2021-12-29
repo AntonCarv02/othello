@@ -5,7 +5,7 @@
 
 int main( int argc, char * argv[]){
 
-    char board[8][8], turn, filemove[2];
+    char board[8][8], turn;
 
     
     if(argc==1){
