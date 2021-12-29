@@ -21,6 +21,7 @@ int main( int argc, char * argv[]){
         while(!verif_gameover(board)){
             
             //turn = getTurn(turn);
+            turn='x';
             getMove(board, turn);
             print_board(board);
 
@@ -63,7 +64,10 @@ int main( int argc, char * argv[]){
             printf("Não foi possivel abrir o ficheiro!\n");
             //ver quem fica com as peças pretas
         }
-        
+
+        //fechar o ficheiro jogadas
+        fclose(f);
+
 
         print_board(board);
 
@@ -73,10 +77,7 @@ int main( int argc, char * argv[]){
             getMove(board, turn);
             print_board(board);
         }
-
-        //fechar o ficheiro jogadas
-        fclose(f);
-
+        
 
     }else if (argc>2){
 

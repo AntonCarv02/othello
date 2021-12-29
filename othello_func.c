@@ -18,10 +18,12 @@ void init_board (char board[8][8]){
             board[l][c]='.';
         }
     }
+
     board[3][3]='o';
     board[3][4]='x';
     board[4][4]='o';
-    board[4][3]='x';    
+    board[4][3]='x';
+    
 }
 
 
@@ -71,7 +73,7 @@ int verif_gameover(char board[8][8]){
 
 
 //-----------------------------
-// função getMove - recebe a jogada do jogador color e verifica se é valida
+// função getTurn - recebe a jogada do jogador color e verifica se é valida
 //
 // argumentos:
 // board[8][8]- tabuleiro de jogo, matriz de caracteres 8*8
@@ -101,7 +103,8 @@ void getMove(char board[8][8], char color){
     char col_char;
 
     
-    do{        
+    do{ 
+
         printf("Insira a sua jogada  (formato ex - 4C): ");
         scanf("%d %c", &line, &col_char);
 
@@ -112,6 +115,7 @@ void getMove(char board[8][8], char color){
             printf("\nInválido! Tente novamente.\n");
             continue;
         }
+
 
         count=flanked(board,line,col,color);
         printf("getmove count%d\n", count);
@@ -141,7 +145,6 @@ void getMove(char board[8][8], char color){
 void play(char board[8][8],int line,int  col,char color ){
 
     board[line][col]=color;
-
     int count;
     char opponent;
 
@@ -161,11 +164,15 @@ void play(char board[8][8],int line,int  col,char color ){
             if((l!=0)||(c!=0)){
 
                 count=count_flips_dir(board,line,col,color,l,c);
-                            
+                printf("\n");
+                
                 while(count){
 
                     board[line+l][col+c]=color;
                     count--;
+                    line+=l;
+                    col+=c;
+                    
                 }                
             }         
         }
@@ -198,8 +205,8 @@ int flanked( char board[8][8], int line,int col,char color ){
 
             }         
         }
-    }    
-    
+    }
+
     return (soma);
 }
 
@@ -227,9 +234,8 @@ int count_flips_dir(char board[8][8], int line, int col ,char color ,int delta_l
     if(color == 'x'){
         opponent = 'o';
 
-    }else if (color == 'o'){
+    } else if (color == 'o'){
         opponent= 'x';
-
     }
     
 
