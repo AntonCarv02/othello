@@ -25,16 +25,6 @@ void init_board (char board[8][8]){
     board[4][4]='o';
     board[4][3]='x';
 
-    /*board[3][3]='x';
-    board[3][4]='x';
-    board[3][5]='x';
-    board[4][4]='o';
-    board[4][3]='o';
-    board[4][5]='o';
-    board[5][3]='o';
-    board[6][4]='o';
-    board[7][5]='x';
-    board[4][6]='x';*/
 }
 
 
@@ -323,7 +313,7 @@ int count_flips_dir(char board[8][8], int line, int col ,char color ,int delta_l
     }
 }
 
-//-------------------------------JOGADA CPU----------------------
+//-------------------------------JOGADA BOT----------------------
 
 //-----------------------------
 // função count_flips_dir - Conta quantas peças serão viradas, numa certa linha, coluna e diagonal.
@@ -340,4 +330,8 @@ int count_flips_dir(char board[8][8], int line, int col ,char color ,int delta_l
 //-----------------------------
 void getMoveBot(char board[8][8], char color){
 
+    int line, col;
+    
+
+    //play(board, line, col, color);
 }

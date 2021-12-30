@@ -64,11 +64,11 @@ int main( int argc, char * argv[]){
                 
                 fscanf( f, "%d%c", &fileline, &filecol_char);
 
-                printf("%c ",filecol_char);
+                //printf("%c ",filecol_char);
                 filecol=filecol_char-'A';
 
                 fileline--;
-                printf("l%d c%d\n",fileline,filecol);
+                //printf("l%d c%d\n",fileline,filecol);
                 
                 
                 play(board,fileline,filecol,turn);
@@ -80,17 +80,30 @@ int main( int argc, char * argv[]){
             }
 
             fclose(f);
+            print_board(board);
 
-        }else{
+
+        } else {
 
             printf("\nNão foi possivel abrir o ficheiro!\n");
-            //ver quem fica com as peças pretas
-            player_color=playerColor();
             
+
+            player_color=playerColor();
+
+            if(player_color=='o'){
+
+                getMoveBot(board, 'x');
+                print_board(board);
+                turn='o';
+
+            } else if(player_color=='x'){
+
+                print_board(board);
+                turn='x';
+            }            
         }
 
-        print_board(board);
-
+        
         while(!verif_gameover(board,player_color)){
 
             if(player_color==turn){
@@ -108,7 +121,7 @@ int main( int argc, char * argv[]){
         }
         
 
-    }else if (argc>2){
+    } else if (argc>2){
 
 
         printf("\nInválido!\n\n");
