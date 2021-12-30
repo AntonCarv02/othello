@@ -32,14 +32,14 @@ int main( int argc, char * argv[]){
 
         FILE *f=fopen( "jogadas.txt", "r");
         int filecol,fileline;
-        char filecol_char;
-        
+        char filecol_char;        
         
         init_board(board);
 
         //verificar que abre o ficheiro
         if(!(f==NULL)){
-            
+
+            turn='x';
             //fazer as plays a partir do ficheiro
             while(!verif_gameover(board)) {
                 
@@ -48,10 +48,12 @@ int main( int argc, char * argv[]){
                 printf("%c ",filecol_char);
                 filecol=filecol_char-'A';
 
+                fileline--;
                 printf("l%d c%d\n",fileline,filecol);
                 
-                //turn
-                //play(board,fileline,filecol,turn);
+                
+                play(board,fileline,filecol,turn);
+                turn=getTurn(turn);
 
                 if(fgetc(f)==EOF){
                     break;
@@ -62,9 +64,9 @@ int main( int argc, char * argv[]){
 
             printf("Não foi possivel abrir o ficheiro!\n");
             //ver quem fica com as peças pretas
+            turn=playerColor();
         }
 
-        //fechar o ficheiro jogadas
         fclose(f);
 
 
@@ -72,9 +74,10 @@ int main( int argc, char * argv[]){
 
         while(!verif_gameover(board)){
 
-            //turn = getTurn(turn);
             getMove(board, turn);
             print_board(board);
+            turn = getTurn(turn);
+            
         }
         
 
@@ -82,6 +85,7 @@ int main( int argc, char * argv[]){
 
 
         printf("\nInválido!\n\n");
+
     }
         
     return 0;
