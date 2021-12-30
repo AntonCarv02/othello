@@ -6,7 +6,7 @@
 
 int main( int argc, char * argv[]){
 
-    char board[8][8], turn;
+    char board[8][8], turn, player_color;
 
     
     if(argc==1){
@@ -14,23 +14,40 @@ int main( int argc, char * argv[]){
 
         init_board(board);
 
-        turn=playerColor();
+        player_color=playerColor();
 
-        print_board(board);
-
-        while(!verif_gameover(board)){
-            
-            getMove(board, turn);
+        
+        if(player_color=='o'){
+            getMoveBot(board, 'x');
             print_board(board);
-            turn=getTurn(turn);
+            turn='o';
 
+        }else if(player_color=='x'){
+
+            print_board(board);
+            turn='x';
+        }
+
+        while(!verif_gameover(board, player_color)){
+            
+            if(player_color==turn){
+
+                getMove(board, turn);
+                turn=getTurn(turn);
+
+            }else{
+                getMoveBot(board, turn);
+                print_board(board);
+                turn=getTurn(turn);
+
+            }
         }
 
 
     } else if(argc==2){
 
 
-        FILE *f=fopen( "jogadas.txt", "r");
+        FILE *f=fopen( argv[1], "r");
         int filecol,fileline;
         char filecol_char;        
         
@@ -40,8 +57,10 @@ int main( int argc, char * argv[]){
         if(!(f==NULL)){
 
             turn='x';
+            player_color=playerColor();
+
             //fazer as plays a partir do ficheiro
-            while(!verif_gameover(board)) {
+            while(!verif_gameover(board,player_color)) {
                 
                 fscanf( f, "%d%c", &fileline, &filecol_char);
 
@@ -57,27 +76,35 @@ int main( int argc, char * argv[]){
 
                 if(fgetc(f)==EOF){
                     break;
-                }         
+                }
             }
+
+            fclose(f);
 
         }else{
 
-            printf("Não foi possivel abrir o ficheiro!\n");
+            printf("\nNão foi possivel abrir o ficheiro!\n");
             //ver quem fica com as peças pretas
-            turn=playerColor();
+            player_color=playerColor();
+            
         }
-
-        fclose(f);
-
 
         print_board(board);
 
-        while(!verif_gameover(board)){
+        while(!verif_gameover(board,player_color)){
 
-            getMove(board, turn);
-            print_board(board);
-            turn = getTurn(turn);
-            
+            if(player_color==turn){
+
+                getMove(board, turn);
+                print_board(board);
+                turn=getTurn(turn);
+
+            }else{
+                getMoveBot(board, turn);
+                print_board(board);
+                turn=getTurn(turn);
+
+            }
         }
         
 

@@ -67,19 +67,51 @@ void print_board(char board[8][8]){
 // argumentos:
 // board[8][8]- tabuleiro de jogo, matriz de caracteres 8*8
 //-----------------------------
-int verif_gameover(char board[8][8]){
+int verif_gameover(char board[8][8], char player){
 
-    int l,c,count_fill=0;
+    int l,c,count_x=0,count_o=0;
+    char winner;
 
 
     for(l=0; l<8; l++){
         for(c=0; c<8; c++){
 
-            count_fill+=(board[l][c]!='.');
+            count_x+=(board[l][c]=='x');
+            count_o+=(board[l][c]=='o');
         }
     }
+    
+    //verif que acabou, falta condição de acabar o jogo sem encher tabuleiro
+    if((count_o+count_x==64)||0){
+        
+        printf("\nGAME OVER\nPretas: %d, Brancas: %d\n",count_x,count_o);
+        
+        if(count_o>count_x){
+            winner = 'o';
 
-    return (count_fill==64);
+        }else if(count_o<count_x){
+            winner = 'x';
+
+        }else if(count_o==count_x){
+            winner = 't';
+
+        }
+
+
+        if(winner==player){
+            printf("Ganhou!\n\n");
+
+        } else if(winner==getTurn(player)){
+            printf("Perdeu! Better luck next time.\n\n");
+
+        } else{
+            printf("Empate!\n\n");
+        }
+
+        return 1;
+    }
+
+    return 0;    
 }
 
 
@@ -183,7 +215,7 @@ void getMove(char board[8][8], char color){
 void play(char board[8][8],int line,int col,char color ){
 
     board[line][col]=color;
-    int count=0;
+    int count=0,colu,linha;
 
 
     printf("\nPLAY\n");
@@ -194,7 +226,8 @@ void play(char board[8][8],int line,int col,char color ){
 
                 count=count_flips_dir(board,line,col,color,l,c);
                 
-                int colu=col,linha=line;
+                colu=col;
+                linha=line;
 
                 while(count){
                     
@@ -288,4 +321,23 @@ int count_flips_dir(char board[8][8], int line, int col ,char color ,int delta_l
         c+=delta_col;
         l+=delta_line;        
     }
+}
+
+//-------------------------------JOGADA CPU----------------------
+
+//-----------------------------
+// função count_flips_dir - Conta quantas peças serão viradas, numa certa linha, coluna e diagonal.
+//(definida por delta_line e delta_col, por exemplo se delta_line=1 e
+//delta_col=1, estamos a considerar a direção “baixo-direita”)
+//
+// argumentos:
+// board[8][8]- tabuleiro de jogo, matriz de caracteres 8*8
+// line - linha da matriz onde foi feita a jogada,inteiro
+// col - coluna da matriz onde foi feita a jogada,inteiro
+// color - que jogador está a fazer a jogada
+// delta_line - percorrer a linha na direção desejada
+// delta_col - percorrer a coluna na direção desejada
+//-----------------------------
+void getMoveBot(char board[8][8], char color){
+
 }
