@@ -2,6 +2,7 @@
 #include "othello_func.h"
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 
 
 //-----------------------------
@@ -292,12 +293,11 @@ int count_flips_dir(char board[8][8], int line, int col ,char color ,int delta_l
     }
     
 
-    while(( l>=0 &&l<8 )&&(c>=0 && c<8)){       
-        
-        printf("countflip l:%d c:%d ",l,c);
-    
+    while(( l>=0 &&l<8 )&&(c>=0 && c<8)){
+
         count_opponent+=(board[l][c]==opponent);        
-        
+        printf("countflip l:%d c:%d count:%d",l,c,count_opponent);
+
 
         if((board[(l+delta_line)][(c+delta_col)])==color){
 
@@ -311,9 +311,10 @@ int count_flips_dir(char board[8][8], int line, int col ,char color ,int delta_l
         c+=delta_col;
         l+=delta_line;        
     }
+    return 0;
 }
 
-//-------------------------------JOGADA BOT----------------------
+//-------------------------------GREEDY BOT----------------------
 
 //-----------------------------
 // função count_flips_dir - Conta quantas peças serão viradas, numa certa linha, coluna e diagonal.
@@ -328,10 +329,41 @@ int count_flips_dir(char board[8][8], int line, int col ,char color ,int delta_l
 // delta_line - percorrer a linha na direção desejada
 // delta_col - percorrer a coluna na direção desejada
 //-----------------------------
+//aplicar esta funçao para ver se nao existem moves disponiveis
 void getMoveBot(char board[8][8], char color){
 
-    int line, col;
+    int line, col, count_board[8][8], count, max=0;
     
+    for(int l=0;l<8;l++){
 
-    //play(board, line, col, color);
+        for(int c=0;c<8;c++){
+        
+            count_board[l][c]=0;
+        }
+    }
+
+    for (int l=0;l<8;l++){
+        for(int c=0;c<8;c++){
+
+            if(board[l][c]=='.'){
+
+                count=flanked(board, l, c, color);
+                count_board[l][c]=count;
+            }
+        }
+    }    
+
+    for (int l=0;l<8;l++){
+        for(int c=0;c<8;c++){
+
+            if(max<count_board[l][c]){
+
+                max=count_board[l][c];
+                line=l;
+                col=c;
+            }
+        }
+    }
+
+    play(board, line, col, color);
 }
