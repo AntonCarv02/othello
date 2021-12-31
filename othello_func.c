@@ -122,11 +122,11 @@ char playerColor (){
 
     if(n==0){
         color = 'x';
-        printf("\n----------- JOGO OTHELLO -----------\n\n\nAs suas peças são as Pretas (x).\n\n");
+        printf("\n----------- JOGO OTHELLO -----------\n\nAs suas peças são as Pretas (x).\n\n");
 
     } else if (n==1){
         color = 'o';
-        printf("\n----------- JOGO OTHELLO -----------\n\n\nAs suas peças são as Brancas (o).\n\n");
+        printf("\n----------- JOGO OTHELLO -----------\n\nAs suas peças são as Brancas (o).\n\n");
     }
 
     return color;
@@ -209,7 +209,7 @@ void play(char board[8][8],int line,int col,char color ){
     int count=0,colu,linha;
 
 
-    printf("\nPLAY\n");
+    printf("PLAY - %c\n", color);
     for(int l=-1; l<2; l++){
         for(int c=-1; c<2; c++){
 
@@ -255,7 +255,7 @@ int flanked( char board[8][8], int line,int col,char color ){
 
                 count=count_flips_dir(board,line,col,color,l,c);
                 soma+=count;
-                printf(" flanked c%d s%d\n",count,soma);
+                //printf(" flanked c%d s%d\n",count,soma);
 
             }         
         }
@@ -296,7 +296,7 @@ int count_flips_dir(char board[8][8], int line, int col ,char color ,int delta_l
     while(( l>=0 &&l<8 )&&(c>=0 && c<8)){
 
         count_opponent+=(board[l][c]==opponent);        
-        printf("countflip l:%d c:%d count:%d",l,c,count_opponent);
+        //printf("countflip l:%d c:%d count:%d",l,c,count_opponent);
 
 
         if((board[(l+delta_line)][(c+delta_col)])==color){
@@ -356,7 +356,7 @@ void getMoveBot(char board[8][8], char color){
     for (int l=0;l<8;l++){
         for(int c=0;c<8;c++){
 
-            if(max<count_board[l][c]){
+            if(max<=count_board[l][c]){
 
                 max=count_board[l][c];
                 line=l;

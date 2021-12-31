@@ -18,6 +18,8 @@ int main( int argc, char * argv[]){
 
         
         if(player_color=='o'){
+
+            print_board(board);
             getMoveBot(board, 'x');
             print_board(board);
             turn='o';
@@ -33,6 +35,7 @@ int main( int argc, char * argv[]){
             if(player_color==turn){
 
                 getMove(board, turn);
+                print_board(board);
                 turn=getTurn(turn);
 
             }else{
@@ -91,7 +94,8 @@ int main( int argc, char * argv[]){
             player_color=playerColor();
 
             if(player_color=='o'){
-
+                
+                print_board(board);
                 getMoveBot(board, 'x');
                 print_board(board);
                 turn='o';
