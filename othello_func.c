@@ -332,7 +332,7 @@ int count_flips_dir(char board[8][8], int line, int col ,char color ,int delta_l
 //aplicar esta funçao para ver se nao existem moves disponiveis
 void getMoveBot(char board[8][8], char color){
 
-    int line, col, count_board[8][8], count, max=0;
+    int line, col, count_board[8][8], count, max=1;
     
     for(int l=0;l<8;l++){
 
