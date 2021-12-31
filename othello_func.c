@@ -73,6 +73,7 @@ int verif_gameover(char board[8][8], char player){
     }
     
     //verif que acabou, falta condição de acabar o jogo sem encher tabuleiro
+    //aplicar função getmovebot para determinar se ainda tem jogadas
     if((count_o+count_x==64)||0){
         
         printf("\nGAME OVER\nPretas: %d, Brancas: %d\n",count_x,count_o);
@@ -329,13 +330,13 @@ int count_flips_dir(char board[8][8], int line, int col ,char color ,int delta_l
 // delta_line - percorrer a linha na direção desejada
 // delta_col - percorrer a coluna na direção desejada
 //-----------------------------
-//aplicar esta funçao para ver se nao existem moves disponiveis
+//
+//fazer função random para nao calhar sempre a mesma jogada
 void getMoveBot(char board[8][8], char color){
 
     int line, col, count_board[8][8], count, max=1;
     
     for(int l=0;l<8;l++){
-
         for(int c=0;c<8;c++){
         
             count_board[l][c]=0;
