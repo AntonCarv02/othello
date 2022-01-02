@@ -34,6 +34,8 @@ void init_board (char board[8][8]){
 //
 // argumentos:
 // board[8][8]- tabuleiro de jogo, matriz de caracteres 8*8
+// Valor de retorno:
+// cor do utlilizador, caracter
 //-----------------------------
 void print_board(char board[8][8]){
 
@@ -53,10 +55,15 @@ void print_board(char board[8][8]){
 
 
 //-----------------------------
-// função verif_gameover - verifica se o jogo chegou ao fim
+// função verif_gameover - verifica se o jogo chegou ao fim de acordo com as regras
+// se o tabuleiro esta cheio ou se nenhum dos jogadores tem jogadas validas possiveis
 //
 // argumentos:
 // board[8][8]- tabuleiro de jogo, matriz de caracteres 8*8
+// player - cor do utilizador
+// movespossible - verifica se existem jogadas possiveis de ambas as cores, 1 se sim, 0 se não
+// valor de retorno:
+// 1 se o jogo acabou, 0 se pode continuar
 //-----------------------------
 int verif_gameover(char board[8][8], char player, int movespossible){
 
@@ -72,8 +79,7 @@ int verif_gameover(char board[8][8], char player, int movespossible){
         }
     }
     
-    //verif que acabou, falta condição de acabar o jogo sem encher tabuleiro
-    //aplicar função getmovebot para determinar se ainda tem jogadas
+    
     if((count_o+count_x==64)||!movespossible){
         
         printf("\n\tGAME OVER!\nPretas: %d, Brancas: %d\n",count_x,count_o);
@@ -108,7 +114,7 @@ int verif_gameover(char board[8][8], char player, int movespossible){
 
 
 //-----------------------------
-// função playerColor - escolhe a cor do jogador
+// função playerColor - escolhe a cor do jogador no inicio do jogo
 //
 // Valor de retorno:
 // cor do utlilizador, caracter
@@ -135,13 +141,13 @@ char playerColor (){
 
 
 //-----------------------------
-// função getTurn - recebe a jogada do jogador color e troca a vez
+// função getTurn - recebe a cor color e troca a vez para a vez do adversario
 //
 // argumentos:
 // board[8][8]- tabuleiro de jogo, matriz de caracteres 8*8
 // color - jogador que está a fazer a jogada
 // Valor de retorno:
-// cor do utlilizador, caracter
+// cor do adversario, caracter
 //-----------------------------
 char getTurn (char turn){
     
@@ -156,7 +162,7 @@ char getTurn (char turn){
 
 
 //-----------------------------
-// função getMove - recebe a jogada do jogador color e verifica se é valida
+// função getMove - recebe a jogada do utilizador e verifica se é valida
 //
 // argumentos:
 // board[8][8]- tabuleiro de jogo, matriz de caracteres 8*8
@@ -246,6 +252,8 @@ void play(char board[8][8],int line,int col,char color ){
 // line - linha da matriz onde foi feita a jogada,inteiro
 // col - coluna da matriz onde foi feita a jogada,inteiro
 // color - que jogador está a fazer a jogada
+// Valor de retorno:
+// numero de peças viradas numa jogada, inteiro
 //-----------------------------
 int flanked( char board[8][8], int line,int col,char color ){
 
@@ -279,6 +287,8 @@ int flanked( char board[8][8], int line,int col,char color ){
 // color - que jogador está a fazer a jogada
 // delta_line - percorrer a linha na direção desejada
 // delta_col - percorrer a coluna na direção desejada
+// Valor de retorno:
+// numero de peças possivel virar numa direção, inteiro
 //-----------------------------
 int count_flips_dir(char board[8][8], int line, int col ,char color ,int delta_line , int delta_col){
 
@@ -314,13 +324,12 @@ int count_flips_dir(char board[8][8], int line, int col ,char color ,int delta_l
 //-------------------------------GREEDY BOT----------------------
 
 //-----------------------------
-// função count_flips_dir - Conta quantas peças serão viradas, numa certa linha, coluna e diagonal.
-//(definida por delta_line e delta_col, por exemplo se delta_line=1 e
-//delta_col=1, estamos a considerar a direção “baixo-direita”)
+// função getMoveBot - cria uma matriz com as jogadas possiveis fazer pelo computador
+// e escolhe a posiçao que vira mais peças
 //
 // argumentos:
 // board[8][8]- tabuleiro de jogo, matriz de caracteres 8*8
-// color - que jogador está a fazer a jogada
+// color - cor pertencente ao computador
 //-----------------------------
 //
 //fazer função random para nao calhar sempre a mesma jogada
@@ -363,13 +372,13 @@ void getMoveBot(char board[8][8], char color){
 
 
 //-----------------------------
-// função count_flips_dir - Conta quantas peças serão viradas, numa certa linha, coluna e diagonal.
-//(definida por delta_line e delta_col, por exemplo se delta_line=1 e
-//delta_col=1, estamos a considerar a direção “baixo-direita”)
-//
+// função movesPossible- verifica se existem jogadas possiveis para o jogador
+// atual(color)
 // argumentos:
 // board[8][8]- tabuleiro de jogo, matriz de caracteres 8*8
 // color - que jogador está a fazer a jogada
+// Valor de retorno:
+// numero de jogadas validas,inteiro
 //-----------------------------
 int movesPossible(char board[8][8], char color){
 

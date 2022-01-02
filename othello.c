@@ -40,6 +40,10 @@ int main( int argc, char * argv[]){
             
             if( !movesPossible(board,turn)){
                 turn=getTurn(turn);
+
+                if( !movesPossible(board,turn)){
+                    continue;
+                }
             }
 
             if((player_color==turn)){
@@ -129,6 +133,9 @@ int main( int argc, char * argv[]){
             
             if( !movesPossible(board,turn)){
                 turn=getTurn(turn);
+                if( !movesPossible(board,turn)){
+                    continue;
+                }
             }
 
             if((player_color==turn)){
