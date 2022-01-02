@@ -6,7 +6,7 @@
 
 int main( int argc, char * argv[]){
 
-    char board[8][8], turn, check_possible, player_color;
+    char board[8][8], turn, check_possiblemove, player_color;
 
 
     if(argc==1){
@@ -23,20 +23,20 @@ int main( int argc, char * argv[]){
             getMoveBot(board, 'x');
             print_board(board);
             turn='o';
-            check_possible=1;
+            check_possiblemove=1;
 
 
         }else if(player_color=='x'){
 
             print_board(board);
             turn='x';
-            check_possible=1;
+            check_possiblemove=1;
 
         }
 
-        while(!verif_gameover(board, player_color, check_possible)){
+        while(!verif_gameover(board, player_color, check_possiblemove)){
              
-            check_possible=0;
+            check_possiblemove=0;
             
             if( !movesPossible(board,turn)){
                 turn=getTurn(turn);
@@ -51,13 +51,14 @@ int main( int argc, char * argv[]){
                 getMove(board, turn);
                 print_board(board);
                 turn=getTurn(turn);
-                check_possible=1;
+                check_possiblemove=1;
 
             } else if((player_color!=turn)){
+
                 getMoveBot(board, turn);
                 print_board(board);
                 turn=getTurn(turn);
-                check_possible=1;
+                check_possiblemove=1;
 
             }
         }
@@ -72,15 +73,15 @@ int main( int argc, char * argv[]){
         
         init_board(board);
 
-        //verificar que abre o ficheiro
+        
         if(!(f==NULL)){
 
             turn='x';
             player_color=playerColor();
-            check_possible=1;
+            check_possiblemove=1;
 
-            //fazer as plays a partir do ficheiro
-            while(!verif_gameover(board,player_color, check_possible)) {
+            
+            while(!verif_gameover(board,player_color, check_possiblemove)) {
                 
                 fscanf( f, "%d%c", &fileline, &filecol_char);
 
@@ -105,6 +106,7 @@ int main( int argc, char * argv[]){
 
         } else {
 
+
             printf("\nNão foi possivel abrir o ficheiro!\n");
             
 
@@ -116,20 +118,20 @@ int main( int argc, char * argv[]){
                 getMoveBot(board, 'x');
                 print_board(board);
                 turn='o';
-                check_possible=1;
+                check_possiblemove=1;
 
             } else if(player_color=='x'){
 
                 print_board(board);
                 turn='x';
-                check_possible=1;
+                check_possiblemove=1;
             }            
         }
 
         
-        while(!verif_gameover(board, player_color, check_possible)){
+        while(!verif_gameover(board, player_color, check_possiblemove)){
             
-            check_possible=0;
+            check_possiblemove=0;
             
             if( !movesPossible(board,turn)){
                 turn=getTurn(turn);
@@ -143,14 +145,14 @@ int main( int argc, char * argv[]){
                 getMove(board, turn);
                 print_board(board);
                 turn=getTurn(turn);
-                check_possible=1;
+                check_possiblemove=1;
 
             } else if((player_color!=turn)){
                 
                 getMoveBot(board, turn);
                 print_board(board);
                 turn=getTurn(turn);
-                check_possible=1;
+                check_possiblemove=1;
 
             }
         }
