@@ -76,6 +76,7 @@ int main( int argc, char * argv[]){
         
         if(!(f==NULL)){
 
+
             turn='x';
             player_color=playerColor();
             check_possiblemove=1;
@@ -125,7 +126,8 @@ int main( int argc, char * argv[]){
                 print_board(board);
                 turn='x';
                 check_possiblemove=1;
-            }            
+            }
+
         }
 
         
@@ -135,6 +137,7 @@ int main( int argc, char * argv[]){
             
             if( !movesPossible(board,turn)){
                 turn=getTurn(turn);
+
                 if( !movesPossible(board,turn)){
                     continue;
                 }

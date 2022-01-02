@@ -388,7 +388,7 @@ int movesPossible(char board[8][8], char color){
     for (int l=0;l<8;l++){
         for(int c=0;c<8;c++){
 
-            if(board[l][c]==color){
+            if(board[l][c]=='.'){
 
                 if(flanked(board, l, c, color)){
 
