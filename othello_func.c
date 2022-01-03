@@ -34,8 +34,6 @@ void init_board (char board[8][8]){
 //
 // argumentos:
 // board[8][8]- tabuleiro de jogo, matriz de caracteres 8*8
-// Valor de retorno:
-// cor do utlilizador, caracter
 //-----------------------------
 void print_board(char board[8][8]){
 
@@ -55,7 +53,7 @@ void print_board(char board[8][8]){
 
 
 //-----------------------------
-// função verif_gameover - verifica se o jogo chegou ao fim de acordo com as regras
+// função verif_gameover - verifica se o jogo chegou ao fim de acordo com as regras,
 // se o tabuleiro esta cheio ou se nenhum dos jogadores tem jogadas validas possiveis
 //
 // argumentos:
@@ -63,7 +61,7 @@ void print_board(char board[8][8]){
 // player - cor do utilizador
 // movespossible - verifica se existem jogadas possiveis de ambas as cores, 1 se sim, 0 se não
 // valor de retorno:
-// 1 se o jogo acabou, 0 se pode continuar
+// 1 se o jogo acabou, 0 se pode continuar, inteiro
 //-----------------------------
 int verif_gameover(char board[8][8], char player, int movespossible){
 
@@ -166,7 +164,7 @@ char getTurn (char turn){
 //
 // argumentos:
 // board[8][8]- tabuleiro de jogo, matriz de caracteres 8*8
-// color - jogador que está a fazer a jogada
+// color - cor do utilizador
 //-----------------------------
 void getMove(char board[8][8], char color){
 
@@ -245,7 +243,7 @@ void play(char board[8][8],int line,int col,char color ){
 
 //-----------------------------
 // função flanked - Conta o número de peças viradas ao jogar numa certa linha ou coluna.
-//Se a jogada for inválida retorna zero.
+// Se a jogada for inválida retorna zero.
 //
 // argumentos:
 // board[8][8]- tabuleiro de jogo, matriz de caracteres 8*8
@@ -253,7 +251,7 @@ void play(char board[8][8],int line,int col,char color ){
 // col - coluna da matriz onde foi feita a jogada,inteiro
 // color - que jogador está a fazer a jogada
 // Valor de retorno:
-// numero de peças viradas numa jogada, inteiro
+// soma das peças viradas em todas as direçoes numa jogada, inteiro
 //-----------------------------
 int flanked( char board[8][8], int line,int col,char color ){
 
@@ -288,7 +286,7 @@ int flanked( char board[8][8], int line,int col,char color ){
 // delta_line - percorrer a linha na direção desejada
 // delta_col - percorrer a coluna na direção desejada
 // Valor de retorno:
-// numero de peças possivel virar numa direção, inteiro
+// numero de peças possiveis virar numa direção, 0 se invalido, inteiro
 //-----------------------------
 int count_flips_dir(char board[8][8], int line, int col ,char color ,int delta_line , int delta_col){
 
@@ -321,18 +319,48 @@ int count_flips_dir(char board[8][8], int line, int col ,char color ,int delta_l
     return 0;
 }
 
-//-------------------------------GREEDY BOT----------------------
 
+//-----------------------------
+// função movesPossible- verifica se existem jogadas possiveis para o jogador
+// atual(color).
+//
+// argumentos:
+// board[8][8]- tabuleiro de jogo, matriz de caracteres 8*8
+// color - que jogador está a fazer a jogada
+// Valor de retorno:
+// numero de posições validas para jogar,inteiro
+//-----------------------------
+int movesPossible(char board[8][8], char color){
+
+    int count_possible=0;
+    
+    
+    for (int l=0;l<8;l++){
+        for(int c=0;c<8;c++){
+
+            if(board[l][c]=='.'){
+
+                if(flanked(board, l, c, color)){
+
+                    count_possible++;
+                }
+            }
+        }
+    }
+
+    return count_possible;
+}
+
+
+//-------------------------------GREEDY BOT-------------------------
 //-----------------------------
 // função getMoveBot - cria uma matriz com as jogadas possiveis fazer pelo computador
 // e escolhe a posiçao que vira mais peças
 //
 // argumentos:
 // board[8][8]- tabuleiro de jogo, matriz de caracteres 8*8
-// color - cor pertencente ao computador
+// color - cor do computador
 //-----------------------------
-//
-//fazer função random para nao calhar sempre a mesma jogada
 void getMoveBot(char board[8][8], char color){
 
     int line, col, count_board[8][8], count, max=1;
@@ -368,35 +396,4 @@ void getMoveBot(char board[8][8], char color){
     }
 
     play(board, line, col, color);
-}
-
-
-//-----------------------------
-// função movesPossible- verifica se existem jogadas possiveis para o jogador
-// atual(color)
-// argumentos:
-// board[8][8]- tabuleiro de jogo, matriz de caracteres 8*8
-// color - que jogador está a fazer a jogada
-// Valor de retorno:
-// numero de jogadas validas,inteiro
-//-----------------------------
-int movesPossible(char board[8][8], char color){
-
-    int count_possible=0;
-    
-    
-    for (int l=0;l<8;l++){
-        for(int c=0;c<8;c++){
-
-            if(board[l][c]=='.'){
-
-                if(flanked(board, l, c, color)){
-
-                    count_possible++;
-                }
-            }
-        }
-    }
-
-    return count_possible;
 }
