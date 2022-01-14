@@ -4,18 +4,20 @@
 #include <time.h>
 #include <string.h>
 
+#define BOARD_SIZE 8
+
 
 //-----------------------------
 // função init_board - Inicializa o tabuleiro (parâmetro board) com as peças brancas e pretas iniciais.
 //
 // argumentos:
-// board[8][8]- tabuleiro de jogo, matriz de caracteres 8*8
+// board[BOARD_SIZE][BOARD_SIZE]- tabuleiro de jogo, matriz de caracteres 8*8
 //-----------------------------
-void init_board (char board[8][8]){
+void init_board (char board[BOARD_SIZE][BOARD_SIZE]){
 
-    for(int l=0;l<8;l++){
+    for(int l=0;l<BOARD_SIZE;l++){
 
-        for(int c=0;c<8;c++){
+        for(int c=0;c<BOARD_SIZE;c++){
         
             board[l][c]='.';
         }
@@ -25,7 +27,6 @@ void init_board (char board[8][8]){
     board[3][4]='x';
     board[4][4]='o';
     board[4][3]='x';
-
 }
 
 
@@ -33,16 +34,16 @@ void init_board (char board[8][8]){
 // função print_board - mostra o tabuleiro atual no standard output (ecrã).
 //
 // argumentos:
-// board[8][8]- tabuleiro de jogo, matriz de caracteres 8*8
+// board[BOARD_SIZE][BOARD_SIZE]- tabuleiro de jogo, matriz de caracteres 8*8
 //-----------------------------
-void print_board(char board[8][8]){
+void print_board(char board[BOARD_SIZE][BOARD_SIZE]){
 
     printf("\n\t  A B C D E F G H\n");
-    for(int l=0;l<8;l++){
+    for(int l=0;l<BOARD_SIZE;l++){
 
         printf("\t%d ",(l+1));
 
-        for(int c=0;c<8;c++){
+        for(int c=0;c<BOARD_SIZE;c++){
 
             printf("%c ", board[l][c]);
         }
@@ -57,20 +58,20 @@ void print_board(char board[8][8]){
 // se o tabuleiro esta cheio ou se nenhum dos jogadores tem jogadas validas possiveis
 //
 // argumentos:
-// board[8][8]- tabuleiro de jogo, matriz de caracteres 8*8
+// board[BOARD_SIZE][BOARD_SIZE]- tabuleiro de jogo, matriz de caracteres 8*8
 // player - cor do utilizador
 // movespossible - verifica se existem jogadas possiveis de ambas as cores, 1 se sim, 0 se não
 // valor de retorno:
 // 1 se o jogo acabou, 0 se pode continuar, inteiro
 //-----------------------------
-int verif_gameover(char board[8][8], char player, int movespossible){
+int verif_gameover(char board[BOARD_SIZE][BOARD_SIZE], char player, int movespossible){
 
     int l,c,count_x=0,count_o=0;
     char winner;
 
 
-    for(l=0; l<8; l++){
-        for(c=0; c<8; c++){
+    for(l=0; l<BOARD_SIZE; l++){
+        for(c=0; c<BOARD_SIZE; c++){
 
             count_x+=(board[l][c]=='x');
             count_o+=(board[l][c]=='o');
@@ -142,7 +143,7 @@ char playerColor (){
 // função getTurn - recebe a cor color e troca a vez para a vez do adversario
 //
 // argumentos:
-// board[8][8]- tabuleiro de jogo, matriz de caracteres 8*8
+// board[BOARD_SIZE][BOARD_SIZE]- tabuleiro de jogo, matriz de caracteres 8*8
 // color - jogador que está a fazer a jogada
 // Valor de retorno:
 // cor do adversario, caracter
@@ -163,24 +164,24 @@ char getTurn (char turn){
 // função getMove - recebe a jogada do utilizador e verifica se é valida
 //
 // argumentos:
-// board[8][8]- tabuleiro de jogo, matriz de caracteres 8*8
+// board[BOARD_SIZE][BOARD_SIZE]- tabuleiro de jogo, matriz de caracteres 8*8
 // color - cor do utilizador
 //-----------------------------
-void getMove(char board[8][8], char color){
+void getMove(char board[BOARD_SIZE][BOARD_SIZE], char color){
 
     int line, col, count;
     char col_char;
 
-    printf("%c - ",color);
+    
     do{ 
-
+        printf("%c - ",color);
         printf("Insira a sua jogada  (formato ex - 4C): ");
         scanf("%d %c", &line, &col_char);
 
         col= col_char - 'A';
         line--;
 
-        if ((col<0||col>7) || (line<0||line>7) || ( board[line][col]!='.')){
+        if ((col<0||col>BOARD_SIZE-1) || (line<0||line>BOARD_SIZE-1) || ( board[line][col]!='.')){
             printf("\nInválido! Tente novamente.\n");
             continue;
         }
@@ -193,7 +194,7 @@ void getMove(char board[8][8], char color){
             continue;
         }
     
-    } while ((!count) || ((col<0||col>7) || (line<0||line>7) || ( board[line][col]!='.')));
+    } while ((!count) || ((col<0||col>BOARD_SIZE-1) || (line<0||line>BOARD_SIZE-1) || ( board[line][col]!='.')));
         
     
     play(board, line, col,color);
@@ -205,15 +206,15 @@ void getMove(char board[8][8], char color){
 // as peças do adversário de acordo com as regras indicadas na descrição do jogo.
 //
 // argumentos:
-// board[8][8]- tabuleiro de jogo, matriz de caracteres 8*8
+// board[BOARD_SIZE][BOARD_SIZE]- tabuleiro de jogo, matriz de caracteres 8*8
 // line - linha da matriz onde foi feita a jogada,inteiro
 // col - coluna da matriz onde foi feita a jogada,inteiro
 // color - qual jogador está a fazer a jogada
 //-----------------------------
-void play(char board[8][8],int line,int col,char color ){
+void play(char board[BOARD_SIZE][BOARD_SIZE],int line,int col,char color ){
 
     board[line][col]=color;
-    int count=0,coluna,linha;
+    int count=0, coluna, linha;
 
 
     printf("PLAY - %c\n", color);
@@ -223,18 +224,18 @@ void play(char board[8][8],int line,int col,char color ){
             if((l!=0)||(c!=0)){
 
                 count=count_flips_dir(board,line,col,color,l,c);
+                //printf(" play c%d \n",count);
                 
-                coluna=col;
-                linha=line;
-
+                coluna=col+c;
+                linha=line+l;
+                
                 while(count){
                     
-                    board[linha+l][coluna+c]=color;
-
+                    board[linha][coluna]=color;                            
                     count--;
                     linha+=l;
-                    coluna+=c;                    
-                }                
+                    coluna+=c;
+                }                                                
             }         
         }
     }
@@ -246,14 +247,14 @@ void play(char board[8][8],int line,int col,char color ){
 // Se a jogada for inválida retorna zero.
 //
 // argumentos:
-// board[8][8]- tabuleiro de jogo, matriz de caracteres 8*8
+// board[BOARD_SIZE][BOARD_SIZE]- tabuleiro de jogo, matriz de caracteres 8*8
 // line - linha da matriz onde foi feita a jogada,inteiro
 // col - coluna da matriz onde foi feita a jogada,inteiro
 // color - que jogador está a fazer a jogada
 // Valor de retorno:
 // soma das peças viradas em todas as direçoes numa jogada, inteiro
 //-----------------------------
-int flanked( char board[8][8], int line,int col,char color ){
+int flanked( char board[BOARD_SIZE][BOARD_SIZE], int line,int col,char color ){
 
    int count,soma=0;
    
@@ -279,7 +280,7 @@ int flanked( char board[8][8], int line,int col,char color ){
 //delta_col=1, estamos a considerar a direção “baixo-direita”)
 //
 // argumentos:
-// board[8][8]- tabuleiro de jogo, matriz de caracteres 8*8
+// board[BOARD_SIZE][BOARD_SIZE]- tabuleiro de jogo, matriz de caracteres 8*8
 // line - linha da matriz onde foi feita a jogada,inteiro
 // col - coluna da matriz onde foi feita a jogada,inteiro
 // color - que jogador está a fazer a jogada
@@ -288,7 +289,7 @@ int flanked( char board[8][8], int line,int col,char color ){
 // Valor de retorno:
 // numero de peças possiveis virar numa direção, 0 se invalido, inteiro
 //-----------------------------
-int count_flips_dir(char board[8][8], int line, int col ,char color ,int delta_line , int delta_col){
+int count_flips_dir(char board[BOARD_SIZE][BOARD_SIZE], int line, int col ,char color ,int delta_line , int delta_col){
 
     int count_opponent=0;
     int l=line,c=col;
@@ -298,20 +299,21 @@ int count_flips_dir(char board[8][8], int line, int col ,char color ,int delta_l
     opponent=getTurn(color);
     
 
-    while(( l>=0 &&l<8 )&&(c>=0 && c<8)){
+    while(( (l+delta_line>=0) && (l+delta_line<BOARD_SIZE) )&&((c+delta_col>=0) && (c+delta_col<BOARD_SIZE))){
 
         count_opponent+=(board[l][c]==opponent);        
         //printf("countflip l:%d c:%d count:%d",l,c,count_opponent);
 
 
         if((board[(l+delta_line)][(c+delta_col)])==color){
-
+            
             return count_opponent;
 
         }else if((board[(l+delta_line)][(c+delta_col)]=='.')){
-            
-            return 0;            
-        }
+
+            return 0;
+
+        } 
         
         c+=delta_col;
         l+=delta_line;        
@@ -325,18 +327,18 @@ int count_flips_dir(char board[8][8], int line, int col ,char color ,int delta_l
 // atual(color).
 //
 // argumentos:
-// board[8][8]- tabuleiro de jogo, matriz de caracteres 8*8
+// board[BOARD_SIZE][BOARD_SIZE]- tabuleiro de jogo, matriz de caracteres 8*8
 // color - que jogador está a fazer a jogada
 // Valor de retorno:
 // numero de posições validas para jogar,inteiro
 //-----------------------------
-int movesPossible(char board[8][8], char color){
+int movesPossible(char board[BOARD_SIZE][BOARD_SIZE], char color){
 
     int count_possible=0;
     
     
-    for (int l=0;l<8;l++){
-        for(int c=0;c<8;c++){
+    for (int l=0;l<BOARD_SIZE;l++){
+        for(int c=0;c<BOARD_SIZE;c++){
 
             if(board[l][c]=='.'){
 
@@ -352,24 +354,23 @@ int movesPossible(char board[8][8], char color){
 }
 
 
-//-------------------------------GREEDY BOT-------------------------
-//-----------------------------
+//--------------------------------GREEDY BOT-------------------------
 // função getMoveBot - cria uma matriz com as jogadas possiveis fazer pelo computador
 // e escolhe a posiçao que vira mais peças
 //
 // argumentos:
-// board[8][8]- tabuleiro de jogo, matriz de caracteres 8*8
+// board[BOARD_SIZE][BOARD_SIZE]- tabuleiro de jogo, matriz de caracteres 8*8
 // color - cor do computador
 //-----------------------------
-void getMoveBot(char board[8][8], char color){
+void getMoveBot(char board[BOARD_SIZE][BOARD_SIZE], char color){
 
-    int line, col, count_board[8][8], count, max=1;
+    int line, col, count_board[BOARD_SIZE][BOARD_SIZE], count, max=1;
     
     
     memset(count_board,0,sizeof(count_board));
     
-    for (int l=0;l<8;l++){
-        for(int c=0;c<8;c++){
+    for (int l=0;l<BOARD_SIZE;l++){
+        for(int c=0;c<BOARD_SIZE;c++){
 
             if(board[l][c]=='.'){
 
@@ -379,12 +380,9 @@ void getMoveBot(char board[8][8], char color){
         }
     }
 
-    /*array[0]=line*10;
-    array[0]+=col;
-    l=array[0]/10;*/
     
-    for (int l=0;l<8;l++){
-        for(int c=0;c<8;c++){
+    for (int l=0;l<BOARD_SIZE;l++){
+        for(int c=0;c<BOARD_SIZE;c++){
 
             if(max<=count_board[l][c]){
 
