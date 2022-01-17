@@ -22,25 +22,27 @@ int main( int argc, char * argv[]){
             print_board(board);
             
             turn=getTurn(player_color);
-            check_possiblemove=1;
+            check_possiblemove=movesPossible(board,turn);
 
 
         }else if(player_color=='x'){
 
             print_board(board);
             turn=player_color;
-            check_possiblemove=1;
+            check_possiblemove=movesPossible(board,turn);
 
         }
 
+
         while(!verif_gameover(board, player_color, check_possiblemove)){
-             
+
             check_possiblemove=movesPossible(board,turn);
-            
+
             if( !check_possiblemove){
+
                 turn=getTurn(turn);
                 check_possiblemove=movesPossible(board,turn);
-            
+
                 if( !check_possiblemove){
                     continue;
                 }
@@ -51,13 +53,13 @@ int main( int argc, char * argv[]){
                 getMove(board, turn);
                 print_board(board);
                 turn=getTurn(turn);
-                
+
             } else if((player_color!=turn)){
 
                 getMoveBot(board, turn);
                 print_board(board);
                 turn=getTurn(turn);
-                
+
             }
         }
 
@@ -80,7 +82,7 @@ int main( int argc, char * argv[]){
             check_possiblemove=1;
 
             
-            while(!verif_gameover(board,player_color, check_possiblemove)) {
+            while(!verif_gameover(board, player_color, check_possiblemove)){
                 
                 fscanf( f, "%d%c", &fileline, &filecol_char);
 
@@ -112,26 +114,26 @@ int main( int argc, char * argv[]){
             player_color=playerColor();
 
             if(player_color=='o'){
-                
+
                 print_board(board);
-                
+
                 turn=getTurn(player_color);
-                check_possiblemove=1;
+                check_possiblemove=movesPossible(board,turn);
 
             } else if(player_color=='x'){
 
                 print_board(board);
                 turn=player_color;
-                check_possiblemove=1;
+                check_possiblemove=movesPossible(board,turn);
             }
 
         }
 
         
         while(!verif_gameover(board, player_color, check_possiblemove)){
-            
+
             check_possiblemove=movesPossible(board,turn);
-            
+
             if( !check_possiblemove){
 
                 turn=getTurn(turn);
@@ -149,7 +151,7 @@ int main( int argc, char * argv[]){
                 turn=getTurn(turn);
 
             } else if((player_color!=turn)){
-                
+
                 getMoveBot(board, turn);
                 print_board(board);
                 turn=getTurn(turn);

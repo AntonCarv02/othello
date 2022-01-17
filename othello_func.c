@@ -182,7 +182,7 @@ void getMove(char board[BOARD_SIZE][BOARD_SIZE], char color){
         line--;
 
         if ((col<0||col>BOARD_SIZE-1) || (line<0||line>BOARD_SIZE-1) || ( board[line][col]!='.')){
-            printf("\nInválido! Tente novamente.\n");
+            printf("\nPosição Inválida! Tente novamente.\n");
             continue;
         }
 
@@ -190,7 +190,7 @@ void getMove(char board[BOARD_SIZE][BOARD_SIZE], char color){
         count=flanked(board,line,col,color);
         
         if(!count){
-            printf("\nJogada inválida! Tente novamente.\n");
+            printf("\nJogada Inválida! Tente novamente.\n");
             continue;
         }
     
@@ -217,7 +217,8 @@ void play(char board[BOARD_SIZE][BOARD_SIZE],int line,int col,char color ){
     int count=0, coluna, linha;
 
 
-    printf("PLAY - %c\n", color);
+    printf("Jogada - %c\n", color);
+
     for(int l=-1; l<2; l++){
         for(int c=-1; c<2; c++){
 
@@ -369,6 +370,7 @@ void getMoveBot(char board[BOARD_SIZE][BOARD_SIZE], char color){
     
     memset(count_board,0,sizeof(count_board));
     
+
     for (int l=0;l<BOARD_SIZE;l++){
         for(int c=0;c<BOARD_SIZE;c++){
 
