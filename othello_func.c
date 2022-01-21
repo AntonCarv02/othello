@@ -140,13 +140,12 @@ char playerColor (){
 
 
 //-----------------------------
-// função getTurn - recebe a cor color e troca a vez para a vez do adversario
+// função getTurn - recebe a cor turn e devolve a cor do oponente
 //
 // argumentos:
-// board[BOARD_SIZE][BOARD_SIZE]- tabuleiro de jogo, matriz de caracteres 8*8
-// color - jogador que está a fazer a jogada
+// turn - jogador atual
 // Valor de retorno:
-// cor do adversario, caracter
+// cor do oponente, caracter
 //-----------------------------
 char getTurn (char turn){
     
@@ -176,13 +175,13 @@ void getMove(char board[BOARD_SIZE][BOARD_SIZE], char color){
     do{ 
         printf("%c - ",color);
         printf("Insira a sua jogada  (formato ex - 4C): ");
-        scanf("%d %c", &line, &col_char);
+        scanf("%d%c", &line, &col_char);
 
         col= col_char - 'A';
         line--;
 
         if ((col<0||col>BOARD_SIZE-1) || (line<0||line>BOARD_SIZE-1) || ( board[line][col]!='.')){
-            printf("\nPosição Inválida! Tente novamente.\n");
+            printf("\nPosição Inválida! Tente novamente.\n\n");
             continue;
         }
 
@@ -190,7 +189,7 @@ void getMove(char board[BOARD_SIZE][BOARD_SIZE], char color){
         count=flanked(board,line,col,color);
         
         if(!count){
-            printf("\nJogada Inválida! Tente novamente.\n");
+            printf("\nJogada Inválida! Tente novamente.\n\n");
             continue;
         }
     
@@ -203,7 +202,7 @@ void getMove(char board[BOARD_SIZE][BOARD_SIZE], char color){
 
 //-----------------------------
 // função play - coloca uma peça de cor color na posição (line, col) e vira
-// as peças do adversário de acordo com as regras indicadas na descrição do jogo.
+// as peças do oponente de acordo com as regras indicadas na descrição do jogo.
 //
 // argumentos:
 // board[BOARD_SIZE][BOARD_SIZE]- tabuleiro de jogo, matriz de caracteres 8*8

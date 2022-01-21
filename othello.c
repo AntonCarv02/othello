@@ -6,7 +6,7 @@
 
 int main( int argc, char * argv[]){
 
-    char board[8][8], turn, player_color;
+    char board[8][8], turn='x', player_color;
     int check_possiblemove;
 
     if(argc==1){
@@ -14,24 +14,12 @@ int main( int argc, char * argv[]){
 
         init_board(board);
 
+
         player_color=playerColor();
 
-        
-        if(player_color=='o'){
-
-            print_board(board);
+        print_board(board);            
             
-            turn=getTurn(player_color);
-            check_possiblemove=movesPossible(board,turn);
-
-
-        }else if(player_color=='x'){
-
-            print_board(board);
-            turn=player_color;
-            check_possiblemove=movesPossible(board,turn);
-
-        }
+        check_possiblemove=movesPossible(board,turn);
 
 
         while(!verif_gameover(board, player_color, check_possiblemove)){
@@ -77,9 +65,8 @@ int main( int argc, char * argv[]){
         if(!(f==NULL)){
 
 
-            turn='x';
             player_color=playerColor();
-            check_possiblemove=1;
+            check_possiblemove=movesPossible(board,turn);
 
             
             while(!verif_gameover(board, player_color, check_possiblemove)){
@@ -113,19 +100,9 @@ int main( int argc, char * argv[]){
 
             player_color=playerColor();
 
-            if(player_color=='o'){
-
-                print_board(board);
-
-                turn=getTurn(player_color);
-                check_possiblemove=movesPossible(board,turn);
-
-            } else if(player_color=='x'){
-
-                print_board(board);
-                turn=player_color;
-                check_possiblemove=movesPossible(board,turn);
-            }
+            print_board(board);
+            
+            check_possiblemove=movesPossible(board,turn);
 
         }
 
