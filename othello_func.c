@@ -4,8 +4,6 @@
 #include <time.h>
 #include <string.h>
 
-#define BOARD_SIZE 8
-
 
 //-----------------------------
 // função init_board - Inicializa o tabuleiro (parâmetro board) com as peças brancas e pretas iniciais.
@@ -23,10 +21,10 @@ void init_board (char board[BOARD_SIZE][BOARD_SIZE]){
         }
     }
 
-    board[3][3]='o';
-    board[3][4]='x';
-    board[4][4]='o';
-    board[4][3]='x';
+    board[3][3]=WHITE;
+    board[3][4]=BLACK;
+    board[4][4]=WHITE;
+    board[4][3]=BLACK;
 }
 
 
@@ -73,8 +71,8 @@ int verif_gameover(char board[BOARD_SIZE][BOARD_SIZE], char player, int movespos
     for(l=0; l<BOARD_SIZE; l++){
         for(c=0; c<BOARD_SIZE; c++){
 
-            count_x+=(board[l][c]=='x');
-            count_o+=(board[l][c]=='o');
+            count_x+=(board[l][c]==BLACK);
+            count_o+=(board[l][c]==WHITE);
         }
     }
     
@@ -84,24 +82,24 @@ int verif_gameover(char board[BOARD_SIZE][BOARD_SIZE], char player, int movespos
         printf("\n\tGAME OVER!\nPretas: %d, Brancas: %d\n",count_x,count_o);
         
         if(count_o>count_x){
-            winner = 'o';
+            winner = WHITE;
 
         }else if(count_o<count_x){
-            winner = 'x';
+            winner = BLACK;
 
         }else if(count_o==count_x){
-            winner = 't';
+            winner = 'e';
 
         }
 
 
-        if(winner==player){
+        if(winner == player){
             printf("Ganhou!\n\n");
 
-        } else if(winner==getTurn(player)){
+        } else if(winner == getTurn(player)){
             printf("Perdeu! Better luck next time.\n\n");
 
-        } else{
+        } else if(winner == 'e'){
             printf("Empate!\n\n");
         }
 
@@ -113,7 +111,7 @@ int verif_gameover(char board[BOARD_SIZE][BOARD_SIZE], char player, int movespos
 
 
 //-----------------------------
-// função playerColor - escolhe a cor do jogador no inicio do jogo
+// função playerColor - escolhe a cor do utilizador no inicio do jogo
 //
 // Valor de retorno:
 // cor do utlilizador, caracter
@@ -127,11 +125,11 @@ char playerColor (){
 
 
     if(n==0){
-        color = 'x';
+        color = BLACK;
         printf("\n----------- JOGO OTHELLO -----------\n\nAs suas peças são as Pretas (x).\n\n");
 
     } else if (n==1){
-        color = 'o';
+        color = WHITE;
         printf("\n----------- JOGO OTHELLO -----------\n\nAs suas peças são as Brancas (o).\n\n");
     }
 
@@ -140,22 +138,22 @@ char playerColor (){
 
 
 //-----------------------------
-// função getTurn - recebe a cor turn e devolve a cor do oponente
+// função getTurn - recebe a cor color e devolve a cor do oponente
 //
 // argumentos:
-// turn - jogador atual
+// color - jogador color
 // Valor de retorno:
 // cor do oponente, caracter
 //-----------------------------
-char getTurn (char turn){
+char getTurn (char color){
     
-    if(turn == 'x'){
-        turn ='o';
-    } else if(turn == 'o'){
-        turn ='x';
+    if(color == BLACK){
+        color = WHITE;
+    } else if(color == WHITE){
+        color = BLACK;
     }
 
-    return turn;
+    return color;
 }
 
 
@@ -224,7 +222,7 @@ void play(char board[BOARD_SIZE][BOARD_SIZE],int line,int col,char color ){
             if((l!=0)||(c!=0)){
 
                 count=count_flips_dir(board,line,col,color,l,c);
-                //printf(" play c%d \n",count);
+                //printf(" play dline %d dcol%d c%d \n",line,col,count);
                 
                 coluna=col+c;
                 linha=line+l;
@@ -299,7 +297,7 @@ int count_flips_dir(char board[BOARD_SIZE][BOARD_SIZE], int line, int col ,char 
     opponent=getTurn(color);
     
 
-    while(( (l+delta_line>=0) && (l+delta_line<BOARD_SIZE) )&&((c+delta_col>=0) && (c+delta_col<BOARD_SIZE))){
+    while( ((l+delta_line>=0)&&(l+delta_line<BOARD_SIZE)) && ((c+delta_col>=0)&&(c+delta_col<BOARD_SIZE)) ){
 
         count_opponent+=(board[l][c]==opponent);        
         //printf("countflip l:%d c:%d count:%d",l,c,count_opponent);
@@ -309,7 +307,7 @@ int count_flips_dir(char board[BOARD_SIZE][BOARD_SIZE], int line, int col ,char 
             
             return count_opponent;
 
-        }else if((board[(l+delta_line)][(c+delta_col)]=='.')){
+        } else if((board[(l+delta_line)][(c+delta_col)]=='.')){
 
             return 0;
 

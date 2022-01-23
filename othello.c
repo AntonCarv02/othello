@@ -1,12 +1,11 @@
 #include <stdio.h>
 #include "othello_func.h"
 #include <stdlib.h>
-#include <time.h>
 
 
 int main( int argc, char * argv[]){
 
-    char board[8][8], turn='x', player_color;
+    char board[8][8], turn=BLACK, player_color;
     int check_possiblemove;
 
     if(argc==1){
@@ -73,7 +72,6 @@ int main( int argc, char * argv[]){
                 
                 fscanf( f, "%d%c", &fileline, &filecol_char);
 
-                //printf("%c ",filecol_char);
                 filecol=filecol_char-'A';
 
                 fileline--;
